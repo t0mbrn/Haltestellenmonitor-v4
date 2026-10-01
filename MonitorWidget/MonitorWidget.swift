@@ -40,8 +40,8 @@ class Provider: IntentTimelineProvider {
                 return
             }
 
-            let entries = (0 ..< 72).map { i in
-                MonitorEntry(date: .now.addingTimeInterval(30 * Double(i)), configuration: configuration, stop: stop, stopEvents: stopEvents)
+            let entries = (0 ..< 72).map { index in
+                MonitorEntry(date: .now.addingTimeInterval(30 * Double(index)), configuration: configuration, stop: stop, stopEvents: stopEvents)
             }
             completion(Timeline(entries: entries, policy: .atEnd))
         }
