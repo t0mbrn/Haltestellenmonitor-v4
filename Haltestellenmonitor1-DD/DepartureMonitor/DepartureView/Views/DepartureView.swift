@@ -256,7 +256,7 @@ struct DepartureView: View {
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(ActivityRequest(token: token, stopID: stop.gid, line: stopEvent.transportation.id, tripCode: String(stopEvent.transportation.properties.tripCode ?? 0), date: getDateStampURL(date: date), time: getTimeStampURL(date: date)))
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Haltestellenmonitor Dresden v2", forHTTPHeaderField: "User-Agent")
+        request.setValue("Haltestellenmonitor Dresden v4", forHTTPHeaderField: "User-Agent")
 
         let task = URLSession.shared.dataTask(with: request) {(data, _, error) in
             guard error == nil else {
