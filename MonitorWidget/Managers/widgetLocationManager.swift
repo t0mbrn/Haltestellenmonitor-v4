@@ -12,9 +12,7 @@ import CoreLocation
 class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
 
-    private var completion: ((CLLocation) -> Void)?
-
-    @Published var llocation: CLLocation?
+    private var continuation: CheckedContinuation<CLLocation?, Never>?
 
     override init() {
         super.init()
@@ -26,23 +24,34 @@ class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
 
-    func fetchLocation(completion: @escaping (CLLocation) -> Void) async {
-        self.completion = completion
-        locationManager.requestLocation()
+    /// Returns nil when location is unavailable or not authorized.
+    @MainActor
+    func fetchLocation() async -> CLLocation? {
+        switch locationManager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            break
+        default:
+            return nil
+        }
+        continuation?.resume(returning: nil)
+        return await withCheckedContinuation { continuation in
+            self.continuation = continuation
+            locationManager.requestLocation()
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-
-        self.llocation = location
-
-        if completion != nil {
-            completion!(location)
-            completion = nil
+        DispatchQueue.main.async {
+            self.continuation?.resume(returning: locations.first)
+            self.continuation = nil
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-            print("MonitorWidgetLocationManagerError ", error)
+        print("MonitorWidgetLocationManagerError ", error)
+        DispatchQueue.main.async {
+            self.continuation?.resume(returning: nil)
+            self.continuation = nil
+        }
     }
 }

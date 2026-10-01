@@ -204,19 +204,10 @@ struct DepartureView: View {
             dateTime = dateTime + (5 * 60) // 5 minutes
         }
 
-        let url = URL(string: "https://efa.vvo-online.de/std3/trias/XML_DM_REQUEST")!
-        var request = URLRequest(url: url, timeoutInterval: 20)
-        request.httpMethod = "POST"
-
-        request.httpBody = createDepartureRequest(stopId: stop.gid, itdDate: getDateStampURL(date: localDateTime), itdTime: getTimeStampURL(date: localDateTime)).data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
         do {
-            let (content, _) = try await URLSession.shared.data(for: request)
-            let stopEventContainer = try JSONDecoder().decode(StopEventContainer.self, from: content)
+            let stopEvents = try await fetchDepartures(stopId: stop.gid, date: localDateTime)
             await MainActor.run {
-                self.stopEvents = stopEventContainer.stopEvents ?? []
+                self.stopEvents = stopEvents
                 self.isLoaded = true
             }
 

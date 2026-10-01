@@ -30,99 +30,47 @@ class Provider: IntentTimelineProvider {
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+        Task {
+            let stop = await resolveStop(for: configuration)
 
-        var stop: Stop = Stop.getByGID(gid: "de:14612:28")!
+            guard let stopEvents = try? await fetchDepartures(stopId: stop.gid) else {
+                print("Widget: departure request failed")
+                let entry = MonitorEntry(date: .now, configuration: configuration, stop: stop, stopEvents: nil)
+                completion(Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(60))))
+                return
+            }
+
+            let entries = (0 ..< 72).map { i in
+                MonitorEntry(date: .now.addingTimeInterval(30 * Double(i)), configuration: configuration, stop: stop, stopEvents: stopEvents)
+            }
+            completion(Timeline(entries: entries, policy: .atEnd))
+        }
+    }
+
+    private func resolveStop(for configuration: ConfigurationIntent) async -> Stop {
+        let fallback = Stop.getByGID(gid: "de:14612:28")!
+
+        guard configuration.favoriteFilter == FavoriteFilter.true else {
+            return Stop.getBystopID(stopID: configuration.stopType?.identifier ?? "0") ?? fallback
+        }
+
         var favoriteStops: [Int] = []
-
-        if configuration.favoriteFilter == FavoriteFilter.true {
-            if let data = UserDefaults(suiteName: "group.eu.hanashi.Haltestellenmonitor")?.data(forKey: "FavoriteStops") {
-                if let decoded = try? JSONDecoder().decode([Int].self, from: data) {
-                    favoriteStops = decoded
-                }
-            }
-
-            // Retrieving stop data for marked favorites
-            var favStops: [Stop] = stops.filter {favorite in
-                return favoriteStops.contains(favorite.stopID)
-            }
-
-            if favStops.isEmpty {
-                print("Widget: No favorites found.")
-
-            } else {
-                var favStopsLoc: [Stop] = []
-                // Retrieving location data
-                Task {
-                    await widgetLocationManager.fetchLocation { llocation in
-                        print("Widget: >>>", llocation.coordinate)}
-                }
-                // Dresden town hall GPS coordinates as default
-                let location = widgetLocationManager.llocation ?? CLLocation(latitude: +51.04750, longitude: +13.74035)
-
-                // sorting by distance
-                favStops.forEach {stop in
-                    var newStop = stop
-                    newStop.distance = location.distance(from: CLLocation(latitude: stop.coordinates.latitude, longitude: stop.coordinates.longitude))
-                    favStopsLoc.append(newStop)
-                }
-                favStops = favStopsLoc.sorted {$0.getDistance() < $1.getDistance()}
-
-                stop = favStops[0]
-            }
-        } else {
-            let stopTmp = Stop.getBystopID(stopID: configuration.stopType?.identifier ?? "0")
-            if stopTmp != nil {
-                stop = stopTmp!
-            }
+        if let data = UserDefaults(suiteName: "group.eu.hanashi.Haltestellenmonitor")?.data(forKey: "FavoriteStops"),
+           let decoded = try? JSONDecoder().decode([Int].self, from: data) {
+            favoriteStops = decoded
         }
-        let url = URL(string: "https://efa.vvo-online.de/std3/trias/XML_DM_REQUEST")!
-        var request = URLRequest(url: url, timeoutInterval: 20)
-        request.httpMethod = "POST"
-
-        request.httpBody = createDepartureRequest(stopId: stop.gid, itdDate: getDateStampURL(), itdTime: getTimeStampURL()).data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-        let task = URLSession.shared.dataTask(with: request) {(data, _, error) in
-            var entries: [MonitorEntry] = []
-            var stopEvents: [StopEvent] = []
-            guard error == nil else {
-                print("Widget error: \(error!)")
-                self.getTimeline(for: configuration, in: context, completion: completion)
-                return
-            }
-
-            guard let content = data else {
-                print("Widget: No data")
-                self.getTimeline(for: configuration, in: context, completion: completion)
-                return
-            }
-
-            DispatchQueue.main.async {
-                do {
-                    let stopEventContainer = try JSONDecoder().decode(StopEventContainer.self, from: content)
-                    stopEvents = stopEventContainer.stopEvents ?? []
-
-                } catch {
-                    print("Widget: JSON decoding failed")
-                    self.getTimeline(for: configuration, in: context, completion: completion)
-                    return
-                }
-
-                let currentDate = Date()
-                for i in 0 ..< 72 {
-                    let entryDate = Calendar.current.date(byAdding: .second, value: 30 * i, to: currentDate)!
-                    let entry = MonitorEntry(date: entryDate, configuration: configuration, stop: stop, stopEvents: stopEvents)
-                    entries.append(entry)
-                }
-
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
-
-            }
-
+        let favStops = stops.filter { favoriteStops.contains($0.stopID) }
+        if favStops.isEmpty {
+            print("Widget: No favorites found.")
+            return fallback
         }
-        task.resume()
+
+        // Dresden town hall GPS coordinates as default
+        let location = await widgetLocationManager.fetchLocation() ?? CLLocation(latitude: +51.04750, longitude: +13.74035)
+        return favStops.min {
+            location.distance(from: CLLocation(latitude: $0.coordinates.latitude, longitude: $0.coordinates.longitude)) <
+            location.distance(from: CLLocation(latitude: $1.coordinates.latitude, longitude: $1.coordinates.longitude))
+        }!
     }
 }
 
