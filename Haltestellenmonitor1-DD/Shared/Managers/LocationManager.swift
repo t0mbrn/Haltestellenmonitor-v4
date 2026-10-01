@@ -13,18 +13,6 @@ import SwiftUI
 final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
 
-    var _region: MKCoordinateRegion = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 51.050446, longitude: 13.737954),
-        span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
-    )
-
-    var region: Binding<MKCoordinateRegion> {
-        Binding(
-            get: { self._region },
-            set: { self._region = $0 }
-        )
-    }
-
     @Published var location: CLLocationCoordinate2D?
     @Published var llocation: CLLocation?
 
@@ -66,10 +54,6 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
 
         DispatchQueue.main.async {
             self.location = location.coordinate
-            self.region.wrappedValue = MKCoordinateRegion(
-                center: location.coordinate,
-                span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
-            )
         }
         self.llocation = location
 
