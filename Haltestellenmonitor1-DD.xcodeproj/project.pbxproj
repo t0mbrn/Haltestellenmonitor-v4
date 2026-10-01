@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B0C9D6FAE8E3707715F7AC48 /* HaltestellenmonitorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1D91FD971A321013D1A6C67F /* HaltestellenmonitorKit */; };
+		E68902341E5E69F2A324249D /* HaltestellenmonitorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 425AEA0C8CBD64542A459542 /* HaltestellenmonitorKit */; };
+		FD1FC1B9BC3C327054A617E1 /* HaltestellenmonitorKit in Frameworks */ = {isa = PBXBuildFile; productRef = D25E979F22745EBF02D34F08 /* HaltestellenmonitorKit */; };
 		D0BD668429EFE0AA004E574C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BD664929EFDD50004E574C /* WidgetKit.framework */; };
 		D0BD668529EFE0AA004E574C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BD664B29EFDD50004E574C /* SwiftUI.framework */; };
 		D0BD669529EFE0AB004E574C /* MonitorWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D0BD668329EFE0AA004E574C /* MonitorWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -83,63 +86,19 @@
 			);
 			target = D00059C12A52F3800007468A /* Haltestellenmonitor1-DDTests */;
 		};
-		2AB8A6ACCEF7BD4F24D39F99 /* Exceptions for "Haltestellenmonitor1-DD" folder in "WatchMonitor Watch App" target */ = {
+		1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Haltestellenmonitor1-DD" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				DepartureMonitor/DepartureView/Models/DepartureFilter.swift,
-				DepartureMonitor/DepartureView/Models/DepartureRequest.swift,
-				"DepartureMonitor/Shared Models/ActivityRequest.swift",
-				"DepartureMonitor/Shared Models/Location.swift",
-				"DepartureMonitor/Shared Models/PushTokenHistory.swift",
-				"DepartureMonitor/Shared Models/StopEvent.swift",
-				DepartureMonitor/SingleTripView/Models/DepartureRequestSingle.swift,
-				DepartureMonitor/SingleTripView/Models/StopSequence.swift,
-				Shared/Helper/DateManager.swift,
-				Shared/Helper/GaussKrueger.swift,
-				Shared/Managers/LocationManager.swift,
-				Shared/Models/FavoriteStop.swift,
-				Shared/Models/MOTTypes.swift,
-				StopsView/Models/Stop.swift,
-				StopsView/Models/StopData.swift,
-				TripFinder/Helpers/DateParser.swift,
-				TripFinder/Models/ConnectionFilter.swift,
-				TripFinder/Models/ConnectionStop.swift,
-				TripFinder/Models/DeparturePlatform.swift,
-				TripFinder/Models/Mot.swift,
-				TripFinder/Models/PartialRoute.swift,
-				TripFinder/Models/Point.swift,
-				TripFinder/Models/RegularStop.swift,
-				TripFinder/Models/Route.swift,
-				TripFinder/Models/StopCoordinate.swift,
-				TripFinder/Models/Trip.swift,
-				TripFinder/Models/TripRequest.swift,
-				TripFinder/Models/TripStandardSettings.swift,
+				"/Localized: MonitorWidget.intentdefinition",
 			);
-			target = D0D1995129F40AA900946D87 /* WatchMonitor Watch App */;
-		};
-		4244423D6B7B72D16A8509F1 /* Exceptions for "Data" folder in "MonitorWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				stops.json,
-				trip.json,
-			);
-			target = D0BD668229EFE0AA004E574C /* MonitorWidgetExtension */;
+			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
 		};
 		5CE4568A4E067AF560B6A9DC /* Exceptions for "Data" folder in "Haltestellenmonitor1-DD" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				stops.json,
 				trip.json,
 			);
 			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
-		};
-		73E88B3A828B364DE302ED33 /* Exceptions for "Data" folder in "WatchMonitor Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				stops.json,
-				trip.json,
-			);
-			target = D0D1995129F40AA900946D87 /* WatchMonitor Watch App */;
 		};
 		84CB0A80E41FFCBEE985685A /* Exceptions for "MonitorWidget" folder in "Haltestellenmonitor1-DD" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -155,52 +114,12 @@
 			);
 			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
 		};
-		B2D2AFF9C8B0BBC242A5C8AB /* Exceptions for "Haltestellenmonitor1-DD" folder in "MonitorWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				DepartureMonitor/DepartureView/Models/DepartureFilter.swift,
-				DepartureMonitor/DepartureView/Models/DepartureRequest.swift,
-				"DepartureMonitor/Shared Models/ActivityRequest.swift",
-				"DepartureMonitor/Shared Models/Location.swift",
-				"DepartureMonitor/Shared Models/PushTokenHistory.swift",
-				"DepartureMonitor/Shared Models/StopEvent.swift",
-				DepartureMonitor/SingleTripView/Models/DepartureRequestSingle.swift,
-				DepartureMonitor/SingleTripView/Models/StopSequence.swift,
-				Shared/Helper/DateManager.swift,
-				Shared/Helper/GaussKrueger.swift,
-				Shared/Models/FavoriteStop.swift,
-				Shared/Models/MOTTypes.swift,
-				StopsView/Models/Stop.swift,
-				StopsView/Models/StopData.swift,
-				TripFinder/Helpers/DateParser.swift,
-				TripFinder/Models/ConnectionFilter.swift,
-				TripFinder/Models/ConnectionStop.swift,
-				TripFinder/Models/DeparturePlatform.swift,
-				TripFinder/Models/Mot.swift,
-				TripFinder/Models/PartialRoute.swift,
-				TripFinder/Models/Point.swift,
-				TripFinder/Models/RegularStop.swift,
-				TripFinder/Models/Route.swift,
-				TripFinder/Models/StopCoordinate.swift,
-				TripFinder/Models/Trip.swift,
-				TripFinder/Models/TripRequest.swift,
-				TripFinder/Models/TripStandardSettings.swift,
-			);
-			target = D0BD668229EFE0AA004E574C /* MonitorWidgetExtension */;
-		};
 		B5266C667B5662282EDE82AC /* Exceptions for "MonitorWidget" folder in "MonitorWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = D0BD668229EFE0AA004E574C /* MonitorWidgetExtension */;
-		};
-		1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Haltestellenmonitor1-DD" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"/Localized: MonitorWidget.intentdefinition",
-			);
-			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
 		};
 		E0686D75AD65175B304B1A0C /* Exceptions for "IntentDefinition" folder in "MonitorWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -230,8 +149,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				9E7AE4826EF3FE253BF5FA4A /* Exceptions for "Haltestellenmonitor1-DD" folder in "Haltestellenmonitor1-DD" target */,
-				B2D2AFF9C8B0BBC242A5C8AB /* Exceptions for "Haltestellenmonitor1-DD" folder in "MonitorWidgetExtension" target */,
-				2AB8A6ACCEF7BD4F24D39F99 /* Exceptions for "Haltestellenmonitor1-DD" folder in "WatchMonitor Watch App" target */,
 			);
 			path = "Haltestellenmonitor1-DD";
 			sourceTree = "<group>";
@@ -249,8 +166,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				5CE4568A4E067AF560B6A9DC /* Exceptions for "Data" folder in "Haltestellenmonitor1-DD" target */,
-				4244423D6B7B72D16A8509F1 /* Exceptions for "Data" folder in "MonitorWidgetExtension" target */,
-				73E88B3A828B364DE302ED33 /* Exceptions for "Data" folder in "WatchMonitor Watch App" target */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -277,6 +192,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0C9D6FAE8E3707715F7AC48 /* HaltestellenmonitorKit in Frameworks */,
 				D0C1ECE429F333F9001D214D /* ActivityKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E68902341E5E69F2A324249D /* HaltestellenmonitorKit in Frameworks */,
 				D0BD668529EFE0AA004E574C /* SwiftUI.framework in Frameworks */,
 				D0BD668429EFE0AA004E574C /* WidgetKit.framework in Frameworks */,
 			);
@@ -294,6 +211,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD1FC1B9BC3C327054A617E1 /* HaltestellenmonitorKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +300,9 @@
 			name = "Haltestellenmonitor1-DD";
 			packageProductDependencies = (
 			);
+			packageProductDependencies = (
+				1D91FD971A321013D1A6C67F /* HaltestellenmonitorKit */,
+			);
 			productName = "Haltestellenmonitor1-DD";
 			productReference = D03A267F29EEB6C9005B0600 /* Haltestellenmonitor1-DD.app */;
 			productType = "com.apple.product-type.application";
@@ -404,6 +325,9 @@
 			name = MonitorWidgetExtension;
 			packageProductDependencies = (
 			);
+			packageProductDependencies = (
+				425AEA0C8CBD64542A459542 /* HaltestellenmonitorKit */,
+			);
 			productName = MonitorWidgetExtension;
 			productReference = D0BD668329EFE0AA004E574C /* MonitorWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -425,6 +349,9 @@
 			);
 			name = "WatchMonitor Watch App";
 			packageProductDependencies = (
+			);
+			packageProductDependencies = (
+				D25E979F22745EBF02D34F08 /* HaltestellenmonitorKit */,
 			);
 			productName = "WatchMonitor Watch App";
 			productReference = D0D1995229F40AA900946D87 /* Haltestellenmonitor Dresden.app */;
@@ -464,6 +391,9 @@
 			);
 			mainGroup = D03A267629EEB6C9005B0600;
 			packageReferences = (
+			);
+			packageReferences = (
+				8F2E078A37D1ABF5890311D4 /* XCLocalSwiftPackageReference "HaltestellenmonitorKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D03A268029EEB6C9005B0600 /* Products */;
@@ -961,6 +891,31 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		8F2E078A37D1ABF5890311D4 /* XCLocalSwiftPackageReference "HaltestellenmonitorKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = HaltestellenmonitorKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1D91FD971A321013D1A6C67F /* HaltestellenmonitorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F2E078A37D1ABF5890311D4 /* XCLocalSwiftPackageReference "HaltestellenmonitorKit" */;
+			productName = HaltestellenmonitorKit;
+		};
+		425AEA0C8CBD64542A459542 /* HaltestellenmonitorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F2E078A37D1ABF5890311D4 /* XCLocalSwiftPackageReference "HaltestellenmonitorKit" */;
+			productName = HaltestellenmonitorKit;
+		};
+		D25E979F22745EBF02D34F08 /* HaltestellenmonitorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F2E078A37D1ABF5890311D4 /* XCLocalSwiftPackageReference "HaltestellenmonitorKit" */;
+			productName = HaltestellenmonitorKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D03A267729EEB6C9005B0600 /* Project object */;
 }

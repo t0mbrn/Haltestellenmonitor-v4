@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct DepartureRow: View {
     var stopEvent: StopEvent

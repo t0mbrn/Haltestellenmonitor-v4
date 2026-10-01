@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ActivityKit
+import HaltestellenmonitorKit
 
 struct SingleTripView: View {
     @EnvironmentObject var pushTokenHistory: PushTokenHistory

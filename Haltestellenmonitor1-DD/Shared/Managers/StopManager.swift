@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import HaltestellenmonitorKit
 
 class StopManager: ObservableObject {
     @Published var selectedStop: Stop?

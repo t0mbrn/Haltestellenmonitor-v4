@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct DepartureRowSkeleton: View {
     var body: some View {

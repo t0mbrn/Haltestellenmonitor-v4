@@ -8,6 +8,7 @@
 
 import AppIntents
 import WidgetKit
+import HaltestellenmonitorKit
 
 struct ConfigurationAppIntent: WidgetConfigurationIntent, CustomIntentMigratedAppIntent {
     static let intentClassName = "ConfigurationIntent"

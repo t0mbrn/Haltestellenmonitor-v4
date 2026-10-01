@@ -10,6 +10,7 @@ import WidgetKit
 import SwiftUI
 import CoreLocation
 import MapKit
+import HaltestellenmonitorKit
 
 struct MonitorEntry: TimelineEntry {
     let date: Date

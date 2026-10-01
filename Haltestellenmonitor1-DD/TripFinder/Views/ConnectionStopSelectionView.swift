@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation
 import Contacts
+import HaltestellenmonitorKit
 
 struct ConnectionStopSelectionView: View {
     @EnvironmentObject var locationManager: LocationManager

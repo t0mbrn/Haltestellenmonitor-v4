@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import HaltestellenmonitorKit
 
 private var buttonHeight: CGFloat = 38
 

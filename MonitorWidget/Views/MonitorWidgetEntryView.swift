@@ -9,6 +9,7 @@
 import WidgetKit
 import SwiftUI
 import CoreLocation
+import HaltestellenmonitorKit
 
 struct MonitorWidgetEntryView: View {
     @Environment(\.colorScheme) var colorScheme

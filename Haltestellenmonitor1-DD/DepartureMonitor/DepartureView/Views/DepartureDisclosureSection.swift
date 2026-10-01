@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct DepartureDisclosureSection: View {
     @EnvironmentObject var departureFilter: DepartureFilter

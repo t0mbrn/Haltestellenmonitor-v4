@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct RegularStopRow: View {
     var regularStop: RegularStop

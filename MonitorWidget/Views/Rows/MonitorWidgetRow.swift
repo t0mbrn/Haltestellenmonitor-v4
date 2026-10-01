@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import HaltestellenmonitorKit
 
 struct MonitorWidgetRow: View {
     @Environment(\.widgetFamily) var widgetFamily

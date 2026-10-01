@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct DepartureInfoViewRow: View {
     let infoLink: InfoLink

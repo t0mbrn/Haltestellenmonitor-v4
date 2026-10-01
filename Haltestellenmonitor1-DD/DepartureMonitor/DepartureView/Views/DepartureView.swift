@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ActivityKit
+import HaltestellenmonitorKit
 
 struct DepartureView: View {
     var stop: Stop

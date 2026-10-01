@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import Haltestellenmonitor1_DD
+import HaltestellenmonitorKit
 
 final class Haltestellenmonitor1_DDTests: XCTestCase {
 

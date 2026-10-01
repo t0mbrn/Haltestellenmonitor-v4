@@ -11,6 +11,7 @@ import WidgetKit
 import SwiftUI
 import CoreLocation
 import MapKit
+import HaltestellenmonitorKit
 
 class Provider: AppIntentTimelineProvider {
 

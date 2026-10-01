@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import HaltestellenmonitorKit
 
 struct ClusterAnnonation: Identifiable {
     let id = UUID()

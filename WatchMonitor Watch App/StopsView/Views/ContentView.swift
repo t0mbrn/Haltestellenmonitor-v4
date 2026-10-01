@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct ContentView: View {
     @StateObject var locationManager: LocationManager = LocationManager()

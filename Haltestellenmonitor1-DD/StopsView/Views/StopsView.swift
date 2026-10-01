@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct StopsView: View {
     @EnvironmentObject var locationManager: LocationManager

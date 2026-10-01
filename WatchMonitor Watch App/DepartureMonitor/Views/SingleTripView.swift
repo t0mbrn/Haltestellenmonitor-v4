@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct SingleTripView: View {
     @State var stopSequence: [StopSequenceItem] = []
