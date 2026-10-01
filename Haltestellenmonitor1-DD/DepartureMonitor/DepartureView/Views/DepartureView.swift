@@ -75,9 +75,8 @@ struct DepartureView: View {
                         }
                         Section {
                             Button {
-                                Task {
-                                    await getDeparture(true)
-                                }
+                                // onChange(of: dateTime) reloads
+                                dateTime = max(dateTime, .now) + 5 * 60
                             } label: {
                                 Text("Spätere Abfahrten laden")
                             }
@@ -194,15 +193,8 @@ struct DepartureView: View {
         }
     }
 
-    func getDeparture(_ showLater: Bool = false) async {
-        var localDateTime = dateTime
-        if localDateTime < Date.now {
-            localDateTime = Date.now
-        }
-        
-        if showLater {
-            dateTime = dateTime + (5 * 60) // 5 minutes
-        }
+    func getDeparture() async {
+        let localDateTime = max(dateTime, .now)
 
         do {
             let stopEvents = try await fetchDepartures(stopId: stop.gid, date: localDateTime)
@@ -217,7 +209,7 @@ struct DepartureView: View {
                 do {
                     try await Task.sleep(for: .seconds(1))
                     if !Task.isCancelled {
-                        await getDeparture(showLater)
+                        await getDeparture()
                     }
                 } catch {
                     // Task was cancelled during sleep
