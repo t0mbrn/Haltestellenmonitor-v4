@@ -13,24 +13,18 @@
 		D011F07F2C523D9D000BAB5C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66D929F03056004E574C /* Trip.swift */; };
 		D011F0802C523D9D000BAB5C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66D929F03056004E574C /* Trip.swift */; };
 		D011F0812C523D9E000BAB5C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66D929F03056004E574C /* Trip.swift */; };
-		D011F0822C523D9E000BAB5C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66D929F03056004E574C /* Trip.swift */; };
 		D011F0832C523DA5000BAB5C /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DB29F030BD004E574C /* Route.swift */; };
 		D011F0842C523DA6000BAB5C /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DB29F030BD004E574C /* Route.swift */; };
 		D011F0852C523DA6000BAB5C /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DB29F030BD004E574C /* Route.swift */; };
-		D011F0862C523DA7000BAB5C /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DB29F030BD004E574C /* Route.swift */; };
 		D011F0872C523DB4000BAB5C /* PartialRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DD29F03446004E574C /* PartialRoute.swift */; };
 		D011F0882C523DB5000BAB5C /* PartialRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DD29F03446004E574C /* PartialRoute.swift */; };
 		D011F0892C523DB5000BAB5C /* PartialRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DD29F03446004E574C /* PartialRoute.swift */; };
-		D011F08A2C523DB6000BAB5C /* PartialRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66DD29F03446004E574C /* PartialRoute.swift */; };
 		D011F08B2C523DBF000BAB5C /* RegularStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07B2C523C73000BAB5C /* RegularStop.swift */; };
 		D011F08C2C523DBF000BAB5C /* RegularStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07B2C523C73000BAB5C /* RegularStop.swift */; };
 		D011F08D2C523DBF000BAB5C /* RegularStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07B2C523C73000BAB5C /* RegularStop.swift */; };
-		D011F08E2C523DC0000BAB5C /* RegularStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07B2C523C73000BAB5C /* RegularStop.swift */; };
 		D011F08F2C523DC5000BAB5C /* DeparturePlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07D2C523C97000BAB5C /* DeparturePlatform.swift */; };
 		D011F0902C523DC6000BAB5C /* DeparturePlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07D2C523C97000BAB5C /* DeparturePlatform.swift */; };
 		D011F0912C523DC6000BAB5C /* DeparturePlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07D2C523C97000BAB5C /* DeparturePlatform.swift */; };
-		D011F0922C523DC7000BAB5C /* DeparturePlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D011F07D2C523C97000BAB5C /* DeparturePlatform.swift */; };
-		D011F0932C523DE4000BAB5C /* Mot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD66E129F03949004E574C /* Mot.swift */; };
 		D0142C3A2A0F909E00646C94 /* DepartureBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0142C392A0F909E00646C94 /* DepartureBinding.swift */; };
 		D0142C3B2A0F90AA00646C94 /* DepartureBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0142C392A0F909E00646C94 /* DepartureBinding.swift */; };
 		D0142C3C2A0F90AB00646C94 /* DepartureBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0142C392A0F909E00646C94 /* DepartureBinding.swift */; };
@@ -70,12 +64,10 @@
 		D09A504F2C4FA249006CB5D6 /* StopEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A504D2C4FA249006CB5D6 /* StopEvent.swift */; };
 		D09A50502C4FA249006CB5D6 /* StopEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A504D2C4FA249006CB5D6 /* StopEvent.swift */; };
 		D09A50512C4FA249006CB5D6 /* StopEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A504D2C4FA249006CB5D6 /* StopEvent.swift */; };
-		D09A50522C4FA249006CB5D6 /* StopEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A504D2C4FA249006CB5D6 /* StopEvent.swift */; };
 		D09A505B2C4FBF43006CB5D6 /* DepartureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A505A2C4FBF43006CB5D6 /* DepartureRequest.swift */; };
 		D09A505C2C4FBF43006CB5D6 /* DepartureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A505A2C4FBF43006CB5D6 /* DepartureRequest.swift */; };
 		D09A505D2C4FBF43006CB5D6 /* DepartureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A505A2C4FBF43006CB5D6 /* DepartureRequest.swift */; };
 		D09A505E2C4FBF43006CB5D6 /* DepartureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A505A2C4FBF43006CB5D6 /* DepartureRequest.swift */; };
-		D09A505F2C4FBF43006CB5D6 /* DepartureRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A505A2C4FBF43006CB5D6 /* DepartureRequest.swift */; };
 		D0BD668429EFE0AA004E574C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BD664929EFDD50004E574C /* WidgetKit.framework */; };
 		D0BD668529EFE0AA004E574C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BD664B29EFDD50004E574C /* SwiftUI.framework */; };
 		D0BD668829EFE0AA004E574C /* MonitorWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD668729EFE0AA004E574C /* MonitorWidgetBundle.swift */; };
@@ -171,7 +163,6 @@
 		F13960532DCA73E5004AC9AA /* DepartureRowSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13960522DCA73DC004AC9AA /* DepartureRowSkeleton.swift */; };
 		F13960572DCA7F1F004AC9AA /* SingleTripRowSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13960562DCA7F1F004AC9AA /* SingleTripRowSkeleton.swift */; };
 		F1520EE32AE96E5A001E3E05 /* widgetLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1520EE12AE96E5A001E3E05 /* widgetLocationManager.swift */; };
-		F15FE0EC2DE0F01C0096C79E /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FE0EB2DE0F01C0096C79E /* Point.swift */; };
 		F15FE0ED2DE0F01C0096C79E /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FE0EB2DE0F01C0096C79E /* Point.swift */; };
 		F15FE0EE2DE0F01C0096C79E /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FE0EB2DE0F01C0096C79E /* Point.swift */; };
 		F15FE0EF2DE0F01C0096C79E /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15FE0EB2DE0F01C0096C79E /* Point.swift */; };
@@ -1063,16 +1054,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D011F0932C523DE4000BAB5C /* Mot.swift in Sources */,
-				D011F08E2C523DC0000BAB5C /* RegularStop.swift in Sources */,
-				D011F08A2C523DB6000BAB5C /* PartialRoute.swift in Sources */,
-				F15FE0EC2DE0F01C0096C79E /* Point.swift in Sources */,
-				D011F0862C523DA7000BAB5C /* Route.swift in Sources */,
-				D011F0822C523D9E000BAB5C /* Trip.swift in Sources */,
 				D00059C52A52F3800007468A /* Haltestellenmonitor1_DDTests.swift in Sources */,
-				D011F0922C523DC7000BAB5C /* DeparturePlatform.swift in Sources */,
-				D09A50522C4FA249006CB5D6 /* StopEvent.swift in Sources */,
-				D09A505F2C4FBF43006CB5D6 /* DepartureRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

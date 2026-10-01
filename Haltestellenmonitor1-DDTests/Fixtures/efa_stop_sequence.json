@@ -1,0 +1,245 @@
+{
+ "version": "11.0.6.72",
+ "leg": {
+  "realtimeStatus": [
+   "EXTRA_STOPS",
+   "MONITORED"
+  ],
+  "transportation": {
+   "id": "voe:21066: :R:j26",
+   "name": "RVS66 66",
+   "disassembledName": "66",
+   "number": "66",
+   "description": "Freital Burgk Zschiedge - Dresden Lockwitz",
+   "product": {
+    "id": 3,
+    "class": 5,
+    "name": "RVS66",
+    "iconId": 3
+   },
+   "operator": {
+    "code": "DVB",
+    "id": "16",
+    "name": "DVB"
+   },
+   "destination": {
+    "id": "33000782",
+    "name": "Lockwitz",
+    "type": "stop"
+   },
+   "properties": {
+    "trainType": "RVS66",
+    "trainNumber": "1212",
+    "isTTB": true,
+    "isSTT": true,
+    "tripCode": 29,
+    "timetablePeriod": "Jahresfahrplan 2026 - Gültig ab 14. Dezember 2025",
+    "validity": {
+     "from": "2026-08-17",
+     "to": "2026-12-12"
+    },
+    "lineDisplay": "LINE",
+    "globalId": "de:vvo:21-66",
+    "OperatorURL": "https://www.dvb.de"
+   }
+  },
+  "stopSequence": [
+   {
+    "isGlobalId": true,
+    "id": "de:14612:28:19:5",
+    "name": "Dresden Hauptbahnhof",
+    "disassembledName": "5",
+    "type": "platform",
+    "pointType": "PLATFORM",
+    "coord": [
+     5371640.0,
+     1528883.0
+    ],
+    "niveau": 0,
+    "parent": {
+     "isGlobalId": true,
+     "id": "de:14612:28",
+     "name": "Dresden Hauptbahnhof",
+     "disassembledName": "Hauptbahnhof",
+     "type": "stop",
+     "parent": {
+      "id": "placeID:14612000:1",
+      "name": "Dresden",
+      "type": "locality"
+     },
+     "properties": {
+      "stopId": "33000028"
+     },
+     "coord": [
+      5371640.0,
+      1528743.0
+     ],
+     "niveau": 0
+    },
+    "productClasses": [
+     0,
+     1,
+     4,
+     5,
+     6
+    ],
+    "properties": {
+     "AREA_NIVEAU_DIVA": "0",
+     "DestinationText": "Lockwitz",
+     "stoppingPointPlanned": "5",
+     "areaGid": "de:14612:28:19",
+     "area": "19",
+     "platform": "5",
+     "platformName": "5",
+     "plannedPlatformName": "5"
+    },
+    "arrivalTimePlanned": "2026-10-01T08:37:00Z",
+    "departureTimePlanned": "2026-10-01T08:37:00Z",
+    "arrivalTimeEstimated": "2026-10-01T08:42:18Z",
+    "departureTimeEstimated": "2026-10-01T08:42:18Z"
+   },
+   {
+    "isGlobalId": true,
+    "id": "de:14612:787:1:2",
+    "name": "Dresden Marie-Wittich-Straße",
+    "disassembledName": "2",
+    "type": "platform",
+    "pointType": "PLATFORM",
+    "coord": [
+     5376407.0,
+     1533643.0
+    ],
+    "niveau": 0,
+    "parent": {
+     "isGlobalId": true,
+     "id": "de:14612:787",
+     "name": "Dresden Marie-Wittich-Straße",
+     "disassembledName": "Marie-Wittich-Straße",
+     "type": "stop",
+     "parent": {
+      "id": "placeID:14612000:1",
+      "name": "Dresden",
+      "type": "locality"
+     },
+     "properties": {
+      "stopId": "33000787"
+     },
+     "coord": [
+      5376401.0,
+      1533672.0
+     ],
+     "niveau": 0
+    },
+    "productClasses": [
+     5
+    ],
+    "properties": {
+     "AREA_NIVEAU_DIVA": "0",
+     "DestinationText": "Lockwitz",
+     "stoppingPointPlanned": "2",
+     "areaGid": "de:14612:787:1",
+     "area": "1",
+     "platform": "2",
+     "platformName": "2",
+     "plannedPlatformName": "2"
+    },
+    "arrivalTimePlanned": "2026-10-01T08:49:00Z",
+    "departureTimePlanned": "2026-10-01T08:49:00Z",
+    "arrivalTimeEstimated": "2026-10-01T08:54:06Z",
+    "departureTimeEstimated": "2026-10-01T08:54:06Z"
+   },
+   {
+    "isGlobalId": true,
+    "id": "de:14612:935:1:3",
+    "name": "Dresden Lockwitz",
+    "disassembledName": "3",
+    "type": "platform",
+    "pointType": "PLATFORM",
+    "coord": [
+     5380923.0,
+     1536937.0
+    ],
+    "niveau": 0,
+    "parent": {
+     "isGlobalId": true,
+     "id": "de:14612:935",
+     "name": "Dresden Lockwitz",
+     "disassembledName": "Lockwitz",
+     "type": "stop",
+     "parent": {
+      "id": "placeID:14612000:1",
+      "name": "Dresden",
+      "type": "locality"
+     },
+     "properties": {
+      "stopId": "33000935"
+     },
+     "coord": [
+      5380960.0,
+      1536960.0
+     ],
+     "niveau": 0
+    },
+    "productClasses": [
+     5,
+     6,
+     10
+    ],
+    "properties": {
+     "AREA_NIVEAU_DIVA": "0",
+     "DestinationText": "Lockwitz",
+     "stoppingPointPlanned": "3",
+     "areaGid": "de:14612:935:1",
+     "area": "1",
+     "platform": "3",
+     "platformName": "3",
+     "plannedPlatformName": "3"
+    },
+    "arrivalTimePlanned": "2026-10-01T09:02:00Z",
+    "arrivalTimeEstimated": "2026-10-01T09:07:06Z"
+   }
+  ],
+  "infos": [
+   {
+    "timestamps": {
+     "creation": "2026-09-28T10:31:00Z"
+    },
+    "priority": "normal",
+    "id": "26757",
+    "version": 307369862,
+    "type": "lineInfo",
+    "infoLinks": [
+     {
+      "urlText": "Dresden - Karlsruher Straße, Leitungsbau",
+      "url": "http://192.168.150.204:8081/ics/XSLT_CM_SHOWADDINFO_REQUEST?infoID=26757&seqID=307369862",
+      "content": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 66</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>Umleitung <span style=\"color:rgb(255,0,0);\">nur in Richtung Lockwitz/Nickern</span> zwischen den Haltestellen Herrmann-Michel-Straße und Achtbeeteweg über den Fahrweg <u>Stuttgarter Straße – Heilbronner Straße – Karlsruher Straße</u>.</p><h2>Haltestellenanpassungen</h2><ul><li>Die Haltestelle <strong>Rathausstraße</strong> kann <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> <u>nicht bedient</u> werden.</li><li>Die Haltestellen <strong>Gittersee Gewerbegebiet</strong>, <strong>Stuttgarter Straße</strong>, <strong>Heilbronner Straße</strong> und <strong>Tübinger Straße</strong> der Linie 366 werden auf der Umleitungsstrecke <u>zusätzlich</u> bedient.</li><li>Die Haltestelle <strong>Kleinnaundorfer Straße</strong> wird <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> ersatzweise auf der Heilbronner Straße bedient.</li></ul>",
+      "subtitle": "Dresden - Karlsruher Straße, Leitungsbau",
+      "title": "Linienaenderung",
+      "additionalText": "inEFA=\"true\";MeldungTyp=\"Information\"",
+      "htmlText": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 66</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>Umleitung <span style=\"color:rgb(255,0,0);\">nur in Richtung Lockwitz/Nickern</span> zwischen den Haltestellen Herrmann-Michel-Straße und Achtbeeteweg über den Fahrweg <u>Stuttgarter Straße – Heilbronner Straße – Karlsruher Straße</u>.</p><h2>Haltestellenanpassungen</h2><ul><li>Die Haltestelle <strong>Rathausstraße</strong> kann <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> <u>nicht bedient</u> werden.</li><li>Die Haltestellen <strong>Gittersee Gewerbegebiet</strong>, <strong>Stuttgarter Straße</strong>, <strong>Heilbronner Straße</strong> und <strong>Tübinger Straße</strong> der Linie 366 werden auf der Umleitungsstrecke <u>zusätzlich</u> bedient.</li><li>Die Haltestelle <strong>Kleinnaundorfer Straße</strong> wird <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> ersatzweise auf der Heilbronner Straße bedient.</li></ul>"
+     }
+    ]
+   },
+   {
+    "timestamps": {
+     "creation": "2026-09-01T11:01:00Z"
+    },
+    "priority": "normal",
+    "id": "27197",
+    "version": 305038862,
+    "type": "lineInfo",
+    "infoLinks": [
+     {
+      "urlText": "Dresden - Wegfall Leistungen im Studentenverkehr",
+      "url": "http://192.168.150.204:8081/ics/XSLT_CM_SHOWADDINFO_REQUEST?infoID=27197&seqID=305038862",
+      "content": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 61:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p><ul><li>Alle Fahrten, die im Fahrplan mit einem <strong>§</strong> gekennzeichnet sind, finden in diesem Zeitraum <u>nicht statt</u>. Betroffen sind die verkürzten Fahrten zwischen <strong>Löbtau, Tharandter Straße</strong> und dem <strong>Betriebshof Gruna</strong>.</li></ul><p><strong>Buslinie 66:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p>\n<div style=\"display:none;\">\n  [[PUSH_SUMMARY]]\nLinie 61 und 66: Zusätzliche Fahrten entfallen im Studentenverkehr zwischen Löbtau, Tharandter Straße und Betriebshof Gruna vom 27.07. bis 11.10.2026.\n  [[/PUSH_SUMMARY]]\n</div>",
+      "subtitle": "Dresden - Wegfall Leistungen im Studentenverkehr",
+      "title": "Linienaenderung",
+      "additionalText": "inEFA=\"true\";MeldungTyp=\"Information\"",
+      "htmlText": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 61:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p><ul><li>Alle Fahrten, die im Fahrplan mit einem <strong>§</strong> gekennzeichnet sind, finden in diesem Zeitraum <u>nicht statt</u>. Betroffen sind die verkürzten Fahrten zwischen <strong>Löbtau, Tharandter Straße</strong> und dem <strong>Betriebshof Gruna</strong>.</li></ul><p><strong>Buslinie 66:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p>\n<div style=\"display:none;\">\n  [[PUSH_SUMMARY]]\nLinie 61 und 66: Zusätzliche Fahrten entfallen im Studentenverkehr zwischen Löbtau, Tharandter Straße und Betriebshof Gruna vom 27.07. bis 11.10.2026.\n  [[/PUSH_SUMMARY]]\n</div>"
+     }
+    ]
+   }
+  ]
+ }
+}
