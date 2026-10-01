@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ActivityKit
+import HaltestellenmonitorKit
 
 struct DepartureView: View {
     var stop: Stop
@@ -18,106 +19,23 @@ struct DepartureView: View {
     @State private var dateTime = Date.now
     @State private var showingSuccessAlert = false
     @State private var showingErrorAlert = false
+    @State private var isLoadingMore = false
+    @State private var reachedEnd = false
     @StateObject var departureFilter = DepartureFilter()
 
     var body: some View {
         Group {
             if isLoaded {
-                VStack {
-                    Form {
-                        Section {
-                            DisclosureGroup("Verkehrsmittel") {
-                                DepartureDisclosureSection()
-                            }
-                            HStack {
-                                DatePicker(selection: $dateTime, in: Date()...) {
-                                    Text("Zeit").accessibilityHint("Bei Bedarf hier gewünschten Zeitpunkt einstellen")
-                                }
-
-                                Button {
-                                    dateTime = Date.now
-                                } label: {
-                                    Text("Jetzt")
-                                        .accessibilityHint("Auf aktuellen Zeitpunkt zurücksetzen")
-                                }
-                            }
-                        }
-                        Section {
-                            // speed-up: don't use the getter
-                            // no utc conversion needed for comparison
-                                List(searchResults.sorted { ($0.departureTimeEstimated ?? $0.departureTimePlanned) < ($1.departureTimeEstimated ?? $1.departureTimePlanned) }, id: \.self) { stopEvent in
-                                    ZStack {
-                                        NavigationLink {
-                                            SingleTripView(stop: stop, stopEvent: stopEvent)
-                                        } label: {
-                                            EmptyView()
-                                        }
-                                        .opacity(0.0)
-                                        .buttonStyle(.plain)
-
-                                        DepartureRow(stopEvent: stopEvent)
-                                    }
-                                    .swipeActions(edge: .trailing) {
-                                        if !ProcessInfo().isiOSAppOnMac {
-                                            Button {
-                                                startActivity(stopEvent: stopEvent)
-                                            } label: {
-                                                Label("", systemImage: "pin")
-                                            }
-                                            .tint(.yellow)
-                                        }
-                                    }
-                                    .accessibilityElement(children: .combine)
-                                    .accessibilityAddTraits(.isButton)
-                                    .accessibilityHint("Zeige \(stopEvent.hasInfos() ? "Meldungen & " : "")nächste Haltestellen dieser Linie")
-                            }
-                           
-                        }
-                        Section {
-                            Button {
-                                Task {
-                                    await getDeparture(true)
-                                }
-                            } label: {
-                                Text("Spätere Abfahrten laden")
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                    }
-                }
+                loadedForm
             } else {
-                // Skeleton
-                Form {
-                    Section {
-                        DisclosureGroup("Verkehrsmittel") {
-                            DepartureDisclosureSection()
-                        }
-
-                        HStack {
-                            DatePicker("Zeit", selection: $dateTime)
-
-                            Button {
-                                dateTime = Date.now
-                            } label: {
-                                Text("Jetzt")
-                            }
-                        }
-                    }
-                    .disabled(true)
-                    .accessibilityHint("Warte auf Daten")
-                    Section {
-                        List(0..<9, id: \.self) { _ in
-                            DepartureRowSkeleton()
-                        }
-                    }
-                }
+                skeletonForm
             }
         }
         .refreshable {
             if dateTime < Date.now {
                 dateTime = Date.now
             }
-            await getDeparture()
+            await getDeparture(reset: true)
         }
         .navigationTitle(Text("🚏 \(stop.name)").accessibilityLabel("Haltestelle \(stop.name)"))
         .toolbar {
@@ -151,7 +69,7 @@ struct DepartureView: View {
         }
 
         .task(id: stop.id, priority: .userInitiated) {
-            await getDeparture()
+            await getDeparture(reset: true)
 
             while !Task.isCancelled {
                 do {
@@ -166,12 +84,127 @@ struct DepartureView: View {
             }
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .onChange(of: dateTime) { _ in
+        .onChange(of: dateTime) {
             Task {
-                await getDeparture()
+                await getDeparture(reset: true)
             }
         }
         .environmentObject(departureFilter)
+    }
+
+    // Split into separate properties: one big body took >200 ms to type-check.
+
+    private var loadedForm: some View {
+        let departures = searchResults.sorted { $0.departureTime < $1.departureTime }
+        // start loading the next page while ~10 rows are still left to scroll
+        let prefetchID = departures.dropLast(10).last?.id ?? departures.first?.id
+
+        return Form {
+            Section {
+                DisclosureGroup("Verkehrsmittel") {
+                    DepartureDisclosureSection()
+                }
+                HStack {
+                    DatePicker(selection: $dateTime, in: Date()...) {
+                        Text("Zeit").accessibilityHint("Bei Bedarf hier gewünschten Zeitpunkt einstellen")
+                    }
+
+                    Button {
+                        dateTime = Date.now
+                    } label: {
+                        Text("Jetzt")
+                            .accessibilityHint("Auf aktuellen Zeitpunkt zurücksetzen")
+                    }
+                }
+            }
+            Section {
+                ForEach(departures) { stopEvent in
+                    departureRow(stopEvent)
+                        .onAppear {
+                            if stopEvent.id == prefetchID {
+                                Task { await loadMore() }
+                            }
+                        }
+                }
+            }
+            if !reachedEnd {
+                loadMoreSection
+            }
+        }
+    }
+
+    private func departureRow(_ stopEvent: StopEvent) -> some View {
+        ZStack {
+            NavigationLink {
+                SingleTripView(stop: stop, stopEvent: stopEvent)
+            } label: {
+                EmptyView()
+            }
+            .opacity(0.0)
+            .buttonStyle(.plain)
+
+            DepartureRow(stopEvent: stopEvent)
+        }
+        .swipeActions(edge: .trailing) {
+            if !ProcessInfo().isiOSAppOnMac {
+                Button {
+                    startActivity(stopEvent: stopEvent)
+                } label: {
+                    Label("", systemImage: "pin")
+                }
+                .tint(.yellow)
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Zeige \(stopEvent.hasInfos() ? "Meldungen & " : "")nächste Haltestellen dieser Linie")
+    }
+
+    private var loadMoreSection: some View {
+        Section {
+            // fallback when the list is too short to scroll (e.g. strict filters)
+            Button {
+                Task { await loadMore() }
+            } label: {
+                if isLoadingMore {
+                    ProgressView()
+                } else {
+                    Text("Spätere Abfahrten laden")
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .disabled(isLoadingMore)
+            .onAppear {
+                Task { await loadMore() }
+            }
+        }
+    }
+
+    private var skeletonForm: some View {
+        Form {
+            Section {
+                DisclosureGroup("Verkehrsmittel") {
+                    DepartureDisclosureSection()
+                }
+
+                HStack {
+                    DatePicker("Zeit", selection: $dateTime)
+
+                    Button {
+                        dateTime = Date.now
+                    } label: {
+                        Text("Jetzt")
+                    }
+                }
+            }
+            .disabled(true)
+            .accessibilityHint("Warte auf Daten")
+            Section {
+                ForEach(0..<9, id: \.self) { _ in
+                    DepartureRowSkeleton()
+                }
+            }
+        }
     }
 
     var searchResults: [StopEvent] {
@@ -194,29 +227,19 @@ struct DepartureView: View {
         }
     }
 
-    func getDeparture(_ showLater: Bool = false) async {
-        var localDateTime = dateTime
-        if localDateTime < Date.now {
-            localDateTime = Date.now
-        }
-        
-        if showLater {
-            dateTime = dateTime + (5 * 60) // 5 minutes
-        }
-
-        let url = URL(string: "https://efa.vvo-online.de/std3/trias/XML_DM_REQUEST")!
-        var request = URLRequest(url: url, timeoutInterval: 20)
-        request.httpMethod = "POST"
-
-        request.httpBody = createDepartureRequest(stopId: stop.gid, itdDate: getDateStampURL(date: localDateTime), itdTime: getTimeStampURL(date: localDateTime)).data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
+    /// Loads the first page. `reset` replaces the list; otherwise pages appended by scrolling are kept.
+    func getDeparture(reset: Bool = false) async {
+        let localDateTime = max(dateTime, .now)
 
         do {
-            let (content, _) = try await URLSession.shared.data(for: request)
-            let stopEventContainer = try JSONDecoder().decode(StopEventContainer.self, from: content)
+            let firstPage = try await fetchDepartures(stopId: stop.gid, date: localDateTime)
             await MainActor.run {
-                self.stopEvents = stopEventContainer.stopEvents ?? []
+                if reset {
+                    self.stopEvents = firstPage
+                    self.reachedEnd = false
+                } else {
+                    self.stopEvents = mergeFirstPage(firstPage, into: self.stopEvents)
+                }
                 self.isLoaded = true
             }
 
@@ -226,7 +249,7 @@ struct DepartureView: View {
                 do {
                     try await Task.sleep(for: .seconds(1))
                     if !Task.isCancelled {
-                        await getDeparture(showLater)
+                        await getDeparture(reset: reset)
                     }
                 } catch {
                     // Task was cancelled during sleep
@@ -236,10 +259,26 @@ struct DepartureView: View {
         }
     }
 
+    /// Appends the departures following the last loaded one.
+    func loadMore() async {
+        guard !isLoadingMore, !reachedEnd, let last = stopEvents.map(\.departureTimePlanned).max() else { return }
+        isLoadingMore = true
+        defer { isLoadingMore = false }
+
+        guard let page = try? await fetchDepartures(stopId: stop.gid, date: last) else { return }
+        let known = Set(stopEvents.map(\.id))
+        let new = page.filter { !known.contains($0.id) }
+        if new.isEmpty {
+            reachedEnd = true
+        } else {
+            stopEvents += new
+        }
+    }
+
     func startActivity(stopEvent: StopEvent) {
         if ActivityAuthorizationInfo().areActivitiesEnabled {
-            let state = TripAttributes.ContentState(timetabledTime: stopEvent.departureTimePlanned, estimatedTime: stopEvent.departureTimeEstimated)
-            let attributes = TripAttributes(name: stop.name, icon: stopEvent.getIcon(), stopID: String(stop.stopID), lineRef: stopEvent.transportation.id, timetabledTime: stopEvent.departureTimePlanned, directionRef: "outward", publishedLineName: stopEvent.transportation.number, destinationText: stopEvent.transportation.destination.name)
+            let state = TripAttributes.ContentState(timetabledTime: stopEvent.departureTimePlanned.ISO8601Format(), estimatedTime: stopEvent.departureTimeEstimated?.ISO8601Format())
+            let attributes = TripAttributes(name: stop.name, icon: stopEvent.getIcon(), stopID: String(stop.stopID), lineRef: stopEvent.transportation.id, timetabledTime: stopEvent.departureTimePlanned.ISO8601Format(), directionRef: "outward", publishedLineName: stopEvent.transportation.number, destinationText: stopEvent.transportation.destination.name)
 
             let activityContent = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 30, to: Date())!)
 
@@ -268,12 +307,12 @@ struct DepartureView: View {
         pushTokenHistory.add(token: token)
 
         let url = URL(string: "https://dvb.hsrv.me/api/activity_v2")!
-        let date = getISO8601Date(dateString: stopEvent.departureTimePlanned)
+        let date = stopEvent.departureTimePlanned
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(ActivityRequest(token: token, stopID: stop.gid, line: stopEvent.transportation.id, tripCode: String(stopEvent.transportation.properties.tripCode ?? 0), date: getDateStampURL(date: date), time: getTimeStampURL(date: date)))
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Haltestellenmonitor Dresden v2", forHTTPHeaderField: "User-Agent")
+        request.setValue("Haltestellenmonitor Dresden v4", forHTTPHeaderField: "User-Agent")
 
         let task = URLSession.shared.dataTask(with: request) {(data, _, error) in
             guard error == nil else {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import BackgroundTasks
+import HaltestellenmonitorKit
 
 struct ContentView: View {
     @State var selection = 1

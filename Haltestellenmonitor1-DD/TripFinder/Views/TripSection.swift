@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct TripSection: View {
     var vm: TripSectionViewModel

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import HaltestellenmonitorKit
 
 struct TripRequestShort: Hashable, Codable {
     var id = UUID()

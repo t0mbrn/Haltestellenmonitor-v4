@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import HaltestellenmonitorKit
 
 private var buttonHeight: CGFloat = 38
 
@@ -17,6 +18,7 @@ struct ConnectionView: View {
     @State var showingSheet = false
     @State var showingAlert = false
     @State var showingAlertEqual = false
+    @State var showingErrorAlert = false
     @State var showingSaveAlert = false
     @State var dateTime = Date.now
     @State var isArrivalTime = 0 // false
@@ -34,17 +36,11 @@ struct ConnectionView: View {
         NavigationStack(path: $stopManager.presentedStops) {
             VStack(spacing: 5) {
                 // .contentMargins(.vertical, 0)
-                if #available(iOS 17.0, *) {
-                    listView()
-                        .listSectionSpacing(18)
-                        .sheet(isPresented: $showingSheet, content: {
-                            ConnectionStopSelectionView()
-                        })
-                } else {
-                    listView()    .sheet(isPresented: $showingSheet, content: {
+                listView()
+                    .listSectionSpacing(18)
+                    .sheet(isPresented: $showingSheet, content: {
                         ConnectionStopSelectionView()
                     })
-                }
             }
             .navigationTitle("🏘️ Verbindungen")
             .toolbar {
@@ -80,6 +76,9 @@ struct ConnectionView: View {
                 } label: {
                     Text("OK")
                 }
+            }
+            .alert("Verbindungen konnten nicht geladen werden", isPresented: $showingErrorAlert) {
+                Button("OK") {}
             }
             .alert("Wie soll der Favorit gespeichert werden?", isPresented: $showingSaveAlert) {
                 TextField("Name", text: $favoriteName)
@@ -321,7 +320,7 @@ struct ConnectionView: View {
         requestData = TripRequest(time: dateTime.ISO8601Format(), isarrivaltime: isArrivalTime == 1, origin: startStr, destination: endStr, standardSettings: standardSettings)
     }
 
-    func getTripData(isNext: Bool = false) async {
+    func getTripData(isNext: Bool = false, attempt: Int = 1) async {
         if requestData == nil {
             return
         }
@@ -339,22 +338,22 @@ struct ConnectionView: View {
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(requestData)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Haltestellenmonitor Dresden v2", forHTTPHeaderField: "User-Agent")
+        request.setValue("Haltestellenmonitor Dresden v4", forHTTPHeaderField: "User-Agent")
 
         do {
             let (content, _) = try await URLSession.shared.data(for: request)
 
-            let decoder = JSONDecoder()
             numbernext = 0
-            self.trip = try decoder.decode(Trip.self, from: content)
+            self.trip = try JSONDecoder.vvo.decode(Trip.self, from: content)
 
             isLoading = false
         } catch {
-            print("error: \(error)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                Task {
-                    await getTripData(isNext: isNext)
-                }
+            print("TripFinder error: \(error)")
+            if attempt < 3, (try? await Task.sleep(for: .seconds(1))) != nil {
+                await getTripData(isNext: isNext, attempt: attempt + 1)
+            } else {
+                isLoading = false
+                showingErrorAlert = !Task.isCancelled
             }
         }
     }

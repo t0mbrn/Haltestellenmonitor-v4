@@ -6,6 +6,7 @@
 //  inspired by https://medium.com/@thiagorodriguescenturion/stop-using-progressview-custom-skeleton-loading-in-swiftui-83682ca7a13e
 //
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct GradientMask: View {
     let phase: CGFloat

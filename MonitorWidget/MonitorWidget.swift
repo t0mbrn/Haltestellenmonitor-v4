@@ -9,120 +9,64 @@
 
 import WidgetKit
 import SwiftUI
-import Intents
 import CoreLocation
 import MapKit
+import HaltestellenmonitorKit
 
-class Provider: IntentTimelineProvider {
+class Provider: AppIntentTimelineProvider {
 
     typealias Entry = MonitorEntry
 
     let widgetLocationManager = WidgetLocationManager()
 
     func placeholder(in context: Context) -> MonitorEntry {
-        MonitorEntry(date: Date(), configuration: ConfigurationIntent(), stop: nil, stopEvents: nil)
+        MonitorEntry(date: Date(), configuration: ConfigurationAppIntent(), stop: nil, stopEvents: nil)
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (MonitorEntry) -> Void) {
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> MonitorEntry {
         // TODO: stopEvents
-        let entry = MonitorEntry(date: Date(), configuration: configuration, stop: stops[0], stopEvents: [])
-        completion(entry)
+        MonitorEntry(date: Date(), configuration: configuration, stop: stops[0], stopEvents: [])
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<MonitorEntry> {
+        let stop = await resolveStop(for: configuration)
 
-        var stop: Stop = Stop.getByGID(gid: "de:14612:28")!
+        guard let stopEvents = try? await fetchDepartures(stopId: stop.gid) else {
+            print("Widget: departure request failed")
+            let entry = MonitorEntry(date: .now, configuration: configuration, stop: stop, stopEvents: nil)
+            return Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(60)))
+        }
+
+        let entries = (0 ..< 72).map { index in
+            MonitorEntry(date: .now.addingTimeInterval(30 * Double(index)), configuration: configuration, stop: stop, stopEvents: stopEvents)
+        }
+        return Timeline(entries: entries, policy: .atEnd)
+    }
+
+    private func resolveStop(for configuration: ConfigurationAppIntent) async -> Stop {
+        let fallback = Stop.getByGID(gid: "de:14612:28")!
+
+        guard configuration.favoriteFilter == .true else {
+            return Stop.getBystopID(stopID: configuration.stopType?.id ?? "0") ?? fallback
+        }
+
         var favoriteStops: [Int] = []
-
-        if configuration.favoriteFilter == FavoriteFilter.true {
-            if let data = UserDefaults(suiteName: "group.eu.hanashi.Haltestellenmonitor")?.data(forKey: "FavoriteStops") {
-                if let decoded = try? JSONDecoder().decode([Int].self, from: data) {
-                    favoriteStops = decoded
-                }
-            }
-
-            // Retrieving stop data for marked favorites
-            var favStops: [Stop] = stops.filter {favorite in
-                return favoriteStops.contains(favorite.stopID)
-            }
-
-            if favStops.isEmpty {
-                print("Widget: No favorites found.")
-
-            } else {
-                var favStopsLoc: [Stop] = []
-                // Retrieving location data
-                Task {
-                    await widgetLocationManager.fetchLocation { llocation in
-                        print("Widget: >>>", llocation.coordinate)}
-                }
-                // Dresden town hall GPS coordinates as default
-                let location = widgetLocationManager.llocation ?? CLLocation(latitude: +51.04750, longitude: +13.74035)
-
-                // sorting by distance
-                favStops.forEach {stop in
-                    var newStop = stop
-                    newStop.distance = location.distance(from: CLLocation(latitude: stop.coordinates.latitude, longitude: stop.coordinates.longitude))
-                    favStopsLoc.append(newStop)
-                }
-                favStops = favStopsLoc.sorted {$0.getDistance() < $1.getDistance()}
-
-                stop = favStops[0]
-            }
-        } else {
-            let stopTmp = Stop.getBystopID(stopID: configuration.stopType?.identifier ?? "0")
-            if stopTmp != nil {
-                stop = stopTmp!
-            }
+        if let data = UserDefaults(suiteName: "group.eu.hanashi.Haltestellenmonitor")?.data(forKey: "FavoriteStops"),
+           let decoded = try? JSONDecoder().decode([Int].self, from: data) {
+            favoriteStops = decoded
         }
-        let url = URL(string: "https://efa.vvo-online.de/std3/trias/XML_DM_REQUEST")!
-        var request = URLRequest(url: url, timeoutInterval: 20)
-        request.httpMethod = "POST"
-
-        request.httpBody = createDepartureRequest(stopId: stop.gid, itdDate: getDateStampURL(), itdTime: getTimeStampURL()).data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-        let task = URLSession.shared.dataTask(with: request) {(data, _, error) in
-            var entries: [MonitorEntry] = []
-            var stopEvents: [StopEvent] = []
-            guard error == nil else {
-                print("Widget error: \(error!)")
-                self.getTimeline(for: configuration, in: context, completion: completion)
-                return
-            }
-
-            guard let content = data else {
-                print("Widget: No data")
-                self.getTimeline(for: configuration, in: context, completion: completion)
-                return
-            }
-
-            DispatchQueue.main.async {
-                do {
-                    let stopEventContainer = try JSONDecoder().decode(StopEventContainer.self, from: content)
-                    stopEvents = stopEventContainer.stopEvents ?? []
-
-                } catch {
-                    print("Widget: JSON decoding failed")
-                    self.getTimeline(for: configuration, in: context, completion: completion)
-                    return
-                }
-
-                let currentDate = Date()
-                for i in 0 ..< 72 {
-                    let entryDate = Calendar.current.date(byAdding: .second, value: 30 * i, to: currentDate)!
-                    let entry = MonitorEntry(date: entryDate, configuration: configuration, stop: stop, stopEvents: stopEvents)
-                    entries.append(entry)
-                }
-
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
-
-            }
-
+        let favStops = stops.filter { favoriteStops.contains($0.stopID) }
+        if favStops.isEmpty {
+            print("Widget: No favorites found.")
+            return fallback
         }
-        task.resume()
+
+        // Dresden town hall GPS coordinates as default
+        let location = await widgetLocationManager.fetchLocation() ?? CLLocation(latitude: +51.04750, longitude: +13.74035)
+        return favStops.min {
+            location.distance(from: CLLocation(latitude: $0.coordinates.latitude, longitude: $0.coordinates.longitude)) <
+            location.distance(from: CLLocation(latitude: $1.coordinates.latitude, longitude: $1.coordinates.longitude))
+        }!
     }
 }
 
@@ -130,21 +74,11 @@ struct MonitorWidget: Widget {
     let kind: String = "MonitorWidget"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             MonitorWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Haltestellenmonitor")
         .description("Widget zur Anzeige der Abfahrten an einer Haltestelle.")
-        .contentMarginsDisabledIfAvailable()
-    }
-}
-
-extension WidgetConfiguration {
-    func contentMarginsDisabledIfAvailable() -> some WidgetConfiguration {
-        if #available(iOSApplicationExtension 17.0, *) {
-            return self.contentMarginsDisabled()
-        } else {
-            return self
-        }
+        .contentMarginsDisabled()
     }
 }

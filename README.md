@@ -36,7 +36,7 @@ Haltestellen Navigator für Dresden
 
 
 ## Anforderungen
-* iOS: 16.4
+* iOS: 17.0, watchOS: 10.0
 * Xcode 14.3*
 
 Für mehr Infos siehe: https://developer.apple.com/support/xcode/

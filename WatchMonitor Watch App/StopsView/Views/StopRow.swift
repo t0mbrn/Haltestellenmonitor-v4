@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct StopRow: View {
     @EnvironmentObject var favoriteStops: FavoriteStop

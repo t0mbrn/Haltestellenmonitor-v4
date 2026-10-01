@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import HaltestellenmonitorKit
 
 struct ClusterAnnonation: Identifiable {
     let id = UUID()
@@ -18,33 +19,15 @@ struct ClusterAnnonation: Identifiable {
 struct MapView: View {
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var stopManager: StopManager
-    @State var tracking: MapUserTrackingMode = .none
 
     var body: some View {
         NavigationStack(path: $stopManager.presentedMapStops) {
-            if #available(iOS 17.0, *) {
-                MapViewNew()
-                    .toolbar(.hidden, for: .navigationBar)
-            } else {
-                Map(coordinateRegion: locationManager.region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $tracking, annotationItems: stops, annotationContent: { stop in
-                    MapAnnotation(coordinate: stop.coordinates, content: {
-                        NavigationLink(value: stop) {
-                            Image(systemName: "h.circle.fill")
-                                .foregroundColor(Color("MapColor"))
-                                .background(Circle().fill(Color(.systemBackground)) .shadow(radius: 1))
-                        }
-                    })
-                })
-                .ignoresSafeArea(edges: .top)
-                .navigationDestination(for: Stop.self) { stop in
-                    DepartureView(stop: stop)
-                }
-            }
+            MapViewNew()
+                .toolbar(.hidden, for: .navigationBar)
         }
     }
 }
 
-@available(iOS 17.0, *)
 struct MapViewNew: View {
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var stopManager: StopManager
@@ -213,7 +196,6 @@ struct MapViewNew: View {
     }
 }
 
-@available(iOS 17.0, *)
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
         MapView()

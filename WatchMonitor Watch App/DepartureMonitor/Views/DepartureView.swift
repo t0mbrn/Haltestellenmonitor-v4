@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct DepartureView: View {
     var stop: Stop
@@ -16,7 +17,7 @@ struct DepartureView: View {
     var body: some View {
         Group {
             if isLoaded {
-                List(searchResults.sorted { ($0.departureTimeEstimated ?? $0.departureTimePlanned) < ($1.departureTimeEstimated ?? $1.departureTimePlanned) }, id: \.self) { stopEvent in
+                List(searchResults.sorted { $0.departureTime < $1.departureTime }, id: \.self) { stopEvent in
                     NavigationLink {
                         SingleTripView(stop: stop, stopEvent: stopEvent)
                     } label: {
@@ -59,19 +60,10 @@ struct DepartureView: View {
     }
 
     func getDeparture() async {
-        let url = URL(string: "https://efa.vvo-online.de/std3/trias/XML_DM_REQUEST")!
-        var request = URLRequest(url: url, timeoutInterval: 20)
-        request.httpMethod = "POST"
-
-        request.httpBody = createDepartureRequest(stopId: stop.gid, itdDate: getDateStampURL(), itdTime: getTimeStampURL()).data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
         do {
-            let (content, _) = try await URLSession.shared.data(for: request)
-            let stopEventContainer = try JSONDecoder().decode(StopEventContainer.self, from: content)
+            let stopEvents = try await fetchDepartures(stopId: stop.gid)
             await MainActor.run {
-                self.stopEvents = stopEventContainer.stopEvents ?? []
+                self.stopEvents = stopEvents
                 self.isLoaded = true
             }
         } catch {

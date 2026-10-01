@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 struct SingleTripView: View {
     @State var stopSequence: [StopSequenceItem] = []
@@ -56,20 +57,8 @@ struct SingleTripView: View {
     }
 
     func getSingleTrip() async {
-        let url = URL(string: "https://efa.vvo-online.de/std3/trias/XML_TRIPSTOPTIMES_REQUEST")!
-        var request = URLRequest(url: url, timeoutInterval: 20)
-        request.httpMethod = "POST"
-
-        let date = getISO8601Date(dateString: stopEvent.departureTimePlanned)
-
-        request.httpBody = createDepartureRequestSingle(stopId: stop.gid, line: stopEvent.transportation.id, tripCode: stopEvent.transportation.properties.tripCode ?? 0, date: getDateStampURL(date: date), time: getTimeStampURL(date: date)).data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
         do {
-            let (content, _) = try await URLSession.shared.data(for: request)
-            let stopSequenceContainer = try JSONDecoder().decode(StopSequenceContainer.self, from: content)
-            let stopEvents = stopSequenceContainer.leg.stopSequence ?? []
+            let stopEvents = try await fetchStopSequence(stop: stop, stopEvent: stopEvent)
             await MainActor.run {
                 if stopEvents.count > 0 {
                     self.stopSequence = stopEvents

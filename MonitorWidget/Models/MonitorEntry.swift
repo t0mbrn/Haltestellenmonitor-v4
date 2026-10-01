@@ -8,28 +8,18 @@
 
 import WidgetKit
 import SwiftUI
-import Intents
 import CoreLocation
 import MapKit
+import HaltestellenmonitorKit
 
 struct MonitorEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationIntent
+    let configuration: ConfigurationAppIntent
     let stop: Stop?
     let stopEvents: [StopEvent]?
 
     func getLineFilters() -> [String]? {
-        if configuration.lineFilter == nil || configuration.lineFilter?.isEmpty == true {
-            return nil
-        }
-        var lines: [String] = []
-        configuration.lineFilter?.forEach { line in
-            lines.append(line.identifier!)
-        }
-        if lines.isEmpty {
-            return nil
-        }
-
+        guard let lines = configuration.lineFilter?.map(\.id), !lines.isEmpty else { return nil }
         return lines
     }
 

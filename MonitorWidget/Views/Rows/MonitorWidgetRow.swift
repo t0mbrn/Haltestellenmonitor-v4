@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import HaltestellenmonitorKit
 
 struct MonitorWidgetRow: View {
     @Environment(\.widgetFamily) var widgetFamily
@@ -27,7 +28,7 @@ struct MonitorWidgetRow: View {
                 .font(.subheadline)
                 .lineLimit(1)
             Spacer()
-            if entry.configuration.displayFormat == DisplayFormat.time {
+            if entry.configuration.displayFormat == .time {
                 Text(widgetFamily == .systemSmall ? "\(stopEvent.getEstimatedTime())" : "\(stopEvent.getEstimatedTime()) Uhr")
                     .font(.subheadline)
                     .multilineTextAlignment(.trailing)
@@ -51,23 +52,3 @@ struct MonitorWidgetRow: View {
         return "\(self.stopEvent.transportation.number)"
     }
 }
-
-/*struct MonitorWidgetRow_Previews: PreviewProvider {
-    static var previews: some View {
-        MonitorWidgetRow(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM), departure: departureM.Departures[0])
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-            .previewDisplayName("Small")
-        
-        MonitorWidgetRow(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM), departure: departureM.Departures[0])
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
-            .previewDisplayName("Medium")
-        
-        MonitorWidgetRow(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM), departure: departureM.Departures[0])
-            .previewContext(WidgetPreviewContext(family: .systemLarge))
-            .previewDisplayName("Large")
-        
-        MonitorWidgetRow(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM), departure: departureM.Departures[0])
-            .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
-            .previewDisplayName("Extra Large")
-    }
-}*/

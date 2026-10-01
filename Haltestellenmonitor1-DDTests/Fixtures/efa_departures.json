@@ -1,0 +1,340 @@
+{
+ "stopEvents": [
+  {
+   "realtimeStatus": [
+    "EXTRA_STOPS",
+    "MONITORED"
+   ],
+   "isRealtimeControlled": true,
+   "location": {
+    "id": "de:14612:28:19:5",
+    "isGlobalId": true,
+    "name": "Dresden Hauptbahnhof",
+    "disassembledName": "5",
+    "type": "platform",
+    "pointType": "PLATFORM",
+    "coord": [
+     5371640.0,
+     1528883.0
+    ],
+    "properties": {
+     "stopId": "33000028",
+     "area": "19",
+     "platform": "5",
+     "platformName": "5",
+     "plannedPlatformName": "5"
+    },
+    "parent": {
+     "id": "de:14612:28",
+     "isGlobalId": true,
+     "name": "Dresden Hauptbahnhof",
+     "disassembledName": "Hauptbahnhof",
+     "type": "stop",
+     "parent": {
+      "name": "Dresden",
+      "type": "locality"
+     },
+     "properties": {
+      "stopId": "33000028"
+     }
+    }
+   },
+   "departureTimePlanned": "2026-10-01T08:37:00Z",
+   "departureTimeBaseTimetable": "2026-10-01T08:37:00Z",
+   "departureTimeEstimated": "2026-10-01T08:42:18Z",
+   "transportation": {
+    "id": "voe:21066: :R:j26",
+    "name": "Stadtbus 66",
+    "disassembledName": "66",
+    "number": "66",
+    "description": "Freital Burgk Zschiedge - Dresden Lockwitz",
+    "product": {
+     "id": 3,
+     "class": 5,
+     "name": "Stadtbus",
+     "iconId": 3
+    },
+    "operator": {
+     "code": "DVB",
+     "id": "16",
+     "name": "DVB"
+    },
+    "destination": {
+     "id": "33000935",
+     "name": "Lockwitz",
+     "type": "stop"
+    },
+    "properties": {
+     "trainNumber": "1212",
+     "isTTB": true,
+     "isSTT": true,
+     "tripCode": 29,
+     "lineDisplay": "LINE",
+     "globalId": "de:vvo:21-66",
+     "OperatorURL": "https://www.dvb.de"
+    },
+    "origin": {
+     "id": "33001187",
+     "name": "Freital Burgk Zschiedge",
+     "type": "stop"
+    }
+   },
+   "infos": [
+    {
+     "timestamps": {
+      "creation": "2026-09-28T10:31:00Z"
+     },
+     "priority": "normal",
+     "id": "26757",
+     "version": 307369862,
+     "type": "lineInfo",
+     "infoLinks": [
+      {
+       "urlText": "Dresden - Karlsruher Straße, Leitungsbau",
+       "url": "http://192.168.150.204:8081/ics/XSLT_CM_SHOWADDINFO_REQUEST?infoID=26757&seqID=307369862",
+       "content": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 66</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>Umleitung <span style=\"color:rgb(255,0,0);\">nur in Richtung Lockwitz/Nickern</span> zwischen den Haltestellen Herrmann-Michel-Straße und Achtbeeteweg über den Fahrweg <u>Stuttgarter Straße – Heilbronner Straße – Karlsruher Straße</u>.</p><h2>Haltestellenanpassungen</h2><ul><li>Die Haltestelle <strong>Rathausstraße</strong> kann <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> <u>nicht bedient</u> werden.</li><li>Die Haltestellen <strong>Gittersee Gewerbegebiet</strong>, <strong>Stuttgarter Straße</strong>, <strong>Heilbronner Straße</strong> und <strong>Tübinger Straße</strong> der Linie 366 werden auf der Umleitungsstrecke <u>zusätzlich</u> bedient.</li><li>Die Haltestelle <strong>Kleinnaundorfer Straße</strong> wird <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> ersatzweise auf der Heilbronner Straße bedient.</li></ul>",
+       "subtitle": "Dresden - Karlsruher Straße, Leitungsbau",
+       "title": "Linienaenderung",
+       "additionalText": "inEFA=\"true\";MeldungTyp=\"Information\"",
+       "htmlText": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 66</strong>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>Umleitung <span style=\"color:rgb(255,0,0);\">nur in Richtung Lockwitz/Nickern</span> zwischen den Haltestellen Herrmann-Michel-Straße und Achtbeeteweg über den Fahrweg <u>Stuttgarter Straße – Heilbronner Straße – Karlsruher Straße</u>.</p><h2>Haltestellenanpassungen</h2><ul><li>Die Haltestelle <strong>Rathausstraße</strong> kann <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> <u>nicht bedient</u> werden.</li><li>Die Haltestellen <strong>Gittersee Gewerbegebiet</strong>, <strong>Stuttgarter Straße</strong>, <strong>Heilbronner Straße</strong> und <strong>Tübinger Straße</strong> der Linie 366 werden auf der Umleitungsstrecke <u>zusätzlich</u> bedient.</li><li>Die Haltestelle <strong>Kleinnaundorfer Straße</strong> wird <span style=\"color:rgb(255,0,0);\">in Richtung Lockwitz/Nickern</span> ersatzweise auf der Heilbronner Straße bedient.</li></ul>"
+      }
+     ]
+    },
+    {
+     "timestamps": {
+      "creation": "2026-09-01T11:01:00Z"
+     },
+     "priority": "normal",
+     "id": "27197",
+     "version": 305038862,
+     "type": "lineInfo",
+     "infoLinks": [
+      {
+       "urlText": "Dresden - Wegfall Leistungen im Studentenverkehr",
+       "url": "http://192.168.150.204:8081/ics/XSLT_CM_SHOWADDINFO_REQUEST?infoID=27197&seqID=305038862",
+       "content": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 61:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p><ul><li>Alle Fahrten, die im Fahrplan mit einem <strong>§</strong> gekennzeichnet sind, finden in diesem Zeitraum <u>nicht statt</u>. Betroffen sind die verkürzten Fahrten zwischen <strong>Löbtau, Tharandter Straße</strong> und dem <strong>Betriebshof Gruna</strong>.</li></ul><p><strong>Buslinie 66:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p>\n<div style=\"display:none;\">\n  [[PUSH_SUMMARY]]\nLinie 61 und 66: Zusätzliche Fahrten entfallen im Studentenverkehr zwischen Löbtau, Tharandter Straße und Betriebshof Gruna vom 27.07. bis 11.10.2026.\n  [[/PUSH_SUMMARY]]\n</div>",
+       "subtitle": "Dresden - Wegfall Leistungen im Studentenverkehr",
+       "title": "Linienaenderung",
+       "additionalText": "inEFA=\"true\";MeldungTyp=\"Information\"",
+       "htmlText": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Buslinie 61:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p><ul><li>Alle Fahrten, die im Fahrplan mit einem <strong>§</strong> gekennzeichnet sind, finden in diesem Zeitraum <u>nicht statt</u>. Betroffen sind die verkürzten Fahrten zwischen <strong>Löbtau, Tharandter Straße</strong> und dem <strong>Betriebshof Gruna</strong>.</li></ul><p><strong>Buslinie 66:</strong><br>In der vorlesungsfreien Zeit der Technischen Universität entfallen zusätzliche Fahrten im Studentenverkehr.</p>\n<div style=\"display:none;\">\n  [[PUSH_SUMMARY]]\nLinie 61 und 66: Zusätzliche Fahrten entfallen im Studentenverkehr zwischen Löbtau, Tharandter Straße und Betriebshof Gruna vom 27.07. bis 11.10.2026.\n  [[/PUSH_SUMMARY]]\n</div>"
+      }
+     ]
+    }
+   ],
+   "properties": {
+    "AVMSTripID": "RVS42118_RVS42119_vvorbl"
+   }
+  },
+  {
+   "realtimeStatus": [
+    "MONITORED"
+   ],
+   "isRealtimeControlled": true,
+   "location": {
+    "id": "de:14612:28:3:2",
+    "isGlobalId": true,
+    "name": "Dresden Hauptbahnhof",
+    "disassembledName": "2",
+    "type": "platform",
+    "pointType": "PLATFORM",
+    "coord": [
+     5371434.0,
+     1528716.0
+    ],
+    "properties": {
+     "occupancy": "MANY_SEATS",
+     "stopId": "33000028",
+     "area": "3",
+     "platform": "2",
+     "platformName": "2",
+     "plannedPlatformName": "2"
+    },
+    "parent": {
+     "id": "de:14612:28",
+     "isGlobalId": true,
+     "name": "Dresden Hauptbahnhof",
+     "disassembledName": "Hauptbahnhof",
+     "type": "stop",
+     "parent": {
+      "name": "Dresden",
+      "type": "locality"
+     },
+     "properties": {
+      "stopId": "33000028"
+     }
+    }
+   },
+   "departureTimePlanned": "2026-10-01T08:38:00Z",
+   "departureTimeBaseTimetable": "2026-10-01T08:38:00Z",
+   "departureTimeEstimated": "2026-10-01T08:43:48Z",
+   "transportation": {
+    "id": "voe:11010: :H:j26",
+    "name": "Straßenbahn 10",
+    "disassembledName": "10",
+    "number": "10",
+    "description": "Dresden Ludwig-Hartmann-Straße - Dresden Messe Gleisschleife",
+    "product": {
+     "id": 2,
+     "class": 4,
+     "name": "Straßenbahn",
+     "iconId": 4
+    },
+    "operator": {
+     "code": "DVB",
+     "id": "16",
+     "name": "DVB"
+    },
+    "destination": {
+     "id": "33000523",
+     "name": "MESSE DRESDEN",
+     "type": "stop"
+    },
+    "properties": {
+     "trainNumber": "1301",
+     "isTTB": true,
+     "isSTT": true,
+     "tripCode": 822,
+     "lineDisplay": "LINE",
+     "globalId": "de:vvo:11-10",
+     "OperatorURL": "https://www.dvb.de"
+    },
+    "origin": {
+     "id": "33000068",
+     "name": "Dresden Striesen Ludwig-Hartmann-Straße",
+     "type": "stop"
+    }
+   },
+   "infos": [
+    {
+     "timestamps": {
+      "creation": "2026-09-06T08:01:00Z"
+     },
+     "priority": "normal",
+     "id": "27447",
+     "version": 305460061,
+     "type": "lineInfo",
+     "infoLinks": [
+      {
+       "urlText": "Dresden - Fetscherstraße, Leitungsbau",
+       "url": "http://192.168.150.204:8081/ics/XSLT_CM_SHOWADDINFO_REQUEST?infoID=27447&seqID=305460061",
+       "content": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Straßenbahnlinie 10:</strong><span style=\"color:rgb(0,0,0);\">&nbsp;&nbsp;&nbsp;</span><br><span style=\"color:rgb(0,0,0);\">Umleitung in beiden Richtungen zwischen den Haltestellen Straßburger Platz und Striesen, Ludwig-Hartmann-Straße über die Haltestellen </span><u>Dürerstraße – Trinitatisplatz – Schillerplatz</u><span style=\"color:rgb(0,0,0);\">.</span></p><p><strong>Straßenbahnlinie 12:</strong><span style=\"color:rgb(0,0,0);\">&nbsp;</span><span style=\"color:hsl(0,100%,50%);\"><i>im Tagesverkehr&nbsp;</i></span><span style=\"color:rgb(0,0,0);\"><i>&nbsp;</i></span><br><span style=\"color:rgb(0,0,0);\">Umleitung in beiden Richtungen zwischen den Haltestellen Fetscherplatz und Striesen, Ludwig-Hartmann-Straße über die Haltestellen </span><u>Spenerstraße – Pohlandplatz – Emanuel-Goldberg-Platz</u><span style=\"color:rgb(0,0,0);\">.</span></p><p><strong>Straßenbahnlinie 12:</strong><span style=\"color:rgb(0,0,0);\">&nbsp;</span><span style=\"color:hsl(0,100%,50%);\"><i>verkürzte Linienführung im Spät- und Wochenendfrühverkehr</i></span><br><span style=\"color:rgb(0,0,0);\">Leutewitz – Stadtzentrum – Fetscherplatz&nbsp;</span></p><ul><li><span style=\"color:hsl(0,100%,50%);\"><i>in Richtung Fetscherplatz</i></span><i> über Krankenhaus St. Joseph-Stift</i></li><li><span style=\"color:hsl(0,100%,50%);\"><i>in Richtung Leutewitz</i></span><i> über Comeniusplatz</i></li></ul><p><strong>Buslinie 64:&nbsp;</strong> &nbsp;<br>Umleitung für <span style=\"color:hsl(0,100%,50%);\">Fahrten in Richtung Kaditz</span> zwischen den Haltestellen Mosenstraße und Gabelsbergerstraße über den Fahrweg <u>Borsbergstraße – Krenkelstraße – Haydnstraße – Fetscherstraße</u>.</p><p>Umleitung für <span style=\"color:hsl(0,100%,50%);\">Fahrten in Richtung Striesen / Reick</span> zwischen den Haltestellen Gabelsbergerstraße und Mosenstraße über den Fahrweg <u>Fetscherstraße – Holbeinstraße – Thomaestraße – Striesener Straße – Borsbergstraße</u>.</p><h2>Hinweise / Haltestellenanpassungen</h2><ul><li>Die Haltestelle <strong>Gabelsberger Straße</strong> kann von der Linie 12 <u>nicht bedient</u> werden.</li><li>Die Haltestelle <strong>Güntzplatz</strong> wird nur durch die Linie 10 bedient.</li><li>Die Haltestelle <strong>Fetscherplatz</strong> wird durch die Linie 12 <span style=\"color:hsl(0,100%,50%);\"><i>im Spät- und Wochenendfrühverkehr </i></span><span style=\"color:hsl(0,0%,0%);\">am Steig 4 bedient.</span></li><li>Die Haltestelle <strong>Fetscherplatz</strong> wird durch die Linie 64 <span style=\"color:#ff0000;\">nur in Richtung Kaditz</span> ersatzweise auf der Borsbergstraße vor der Kreuzung Krenkelstraße bedient.</li><li>Auf der Linie 8 erfolgen <u>Fahrplananpassunge</u>n von Montag-Freitag im Tagesverkehr.</li></ul><h2>Anschlussregelungen</h2><p>Folgende Anschlüsse <u>entfallen</u>:</p><ul><li>An der Haltestelle <strong>Zwinglistraße</strong> entfallen die Anschlüsse zwischen den Linien 2 und 64.</li></ul><h2>Weiterführende Informationen</h2><ul><li><a href=\"https://www.dvb.de/ext/pdf/BauInfo_Fetscherstr_310826_web.pdf\">Infoflyer zur Baumaßnahme mit Karte der Umleitungsstrecken</a> (PDF&nbsp;|&nbsp;576 KB)</li></ul>",
+       "subtitle": "Dresden - Fetscherstraße, Leitungsbau",
+       "title": "Linienaenderung",
+       "additionalText": "inEFA=\"true\";MeldungTyp=\"Information\"",
+       "htmlText": "<div style=\"display:none;\">&nbsp;</div><h2>Beschreibung</h2><p><strong>Straßenbahnlinie 10:</strong><span style=\"color:rgb(0,0,0);\">&nbsp;&nbsp;&nbsp;</span><br><span style=\"color:rgb(0,0,0);\">Umleitung in beiden Richtungen zwischen den Haltestellen Straßburger Platz und Striesen, Ludwig-Hartmann-Straße über die Haltestellen </span><u>Dürerstraße – Trinitatisplatz – Schillerplatz</u><span style=\"color:rgb(0,0,0);\">.</span></p><p><strong>Straßenbahnlinie 12:</strong><span style=\"color:rgb(0,0,0);\">&nbsp;</span><span style=\"color:hsl(0,100%,50%);\"><i>im Tagesverkehr&nbsp;</i></span><span style=\"color:rgb(0,0,0);\"><i>&nbsp;</i></span><br><span style=\"color:rgb(0,0,0);\">Umleitung in beiden Richtungen zwischen den Haltestellen Fetscherplatz und Striesen, Ludwig-Hartmann-Straße über die Haltestellen </span><u>Spenerstraße – Pohlandplatz – Emanuel-Goldberg-Platz</u><span style=\"color:rgb(0,0,0);\">.</span></p><p><strong>Straßenbahnlinie 12:</strong><span style=\"color:rgb(0,0,0);\">&nbsp;</span><span style=\"color:hsl(0,100%,50%);\"><i>verkürzte Linienführung im Spät- und Wochenendfrühverkehr</i></span><br><span style=\"color:rgb(0,0,0);\">Leutewitz – Stadtzentrum – Fetscherplatz&nbsp;</span></p><ul><li><span style=\"color:hsl(0,100%,50%);\"><i>in Richtung Fetscherplatz</i></span><i> über Krankenhaus St. Joseph-Stift</i></li><li><span style=\"color:hsl(0,100%,50%);\"><i>in Richtung Leutewitz</i></span><i> über Comeniusplatz</i></li></ul><p><strong>Buslinie 64:&nbsp;</strong> &nbsp;<br>Umleitung für <span style=\"color:hsl(0,100%,50%);\">Fahrten in Richtung Kaditz</span> zwischen den Haltestellen Mosenstraße und Gabelsbergerstraße über den Fahrweg <u>Borsbergstraße – Krenkelstraße – Haydnstraße – Fetscherstraße</u>.</p><p>Umleitung für <span style=\"color:hsl(0,100%,50%);\">Fahrten in Richtung Striesen / Reick</span> zwischen den Haltestellen Gabelsbergerstraße und Mosenstraße über den Fahrweg <u>Fetscherstraße – Holbeinstraße – Thomaestraße – Striesener Straße – Borsbergstraße</u>.</p><h2>Hinweise / Haltestellenanpassungen</h2><ul><li>Die Haltestelle <strong>Gabelsberger Straße</strong> kann von der Linie 12 <u>nicht bedient</u> werden.</li><li>Die Haltestelle <strong>Güntzplatz</strong> wird nur durch die Linie 10 bedient.</li><li>Die Haltestelle <strong>Fetscherplatz</strong> wird durch die Linie 12 <span style=\"color:hsl(0,100%,50%);\"><i>im Spät- und Wochenendfrühverkehr </i></span><span style=\"color:hsl(0,0%,0%);\">am Steig 4 bedient.</span></li><li>Die Haltestelle <strong>Fetscherplatz</strong> wird durch die Linie 64 <span style=\"color:#ff0000;\">nur in Richtung Kaditz</span> ersatzweise auf der Borsbergstraße vor der Kreuzung Krenkelstraße bedient.</li><li>Auf der Linie 8 erfolgen <u>Fahrplananpassunge</u>n von Montag-Freitag im Tagesverkehr.</li></ul><h2>Anschlussregelungen</h2><p>Folgende Anschlüsse <u>entfallen</u>:</p><ul><li>An der Haltestelle <strong>Zwinglistraße</strong> entfallen die Anschlüsse zwischen den Linien 2 und 64.</li></ul><h2>Weiterführende Informationen</h2><ul><li><a href=\"https://www.dvb.de/ext/pdf/BauInfo_Fetscherstr_310826_web.pdf\">Infoflyer zur Baumaßnahme mit Karte der Umleitungsstrecken</a> (PDF&nbsp;|&nbsp;576 KB)</li></ul>"
+      }
+     ]
+    },
+    {
+     "timestamps": {
+      "creation": "2026-09-28T11:31:00Z"
+     },
+     "priority": "normal",
+     "id": "27715",
+     "version": 307373462,
+     "type": "lineInfo",
+     "infoLinks": [
+      {
+       "urlText": "Dresden - Pichmännel-Oktoberfest, Verstärkerleistungen",
+       "url": "http://192.168.150.204:8081/ics/XSLT_CM_SHOWADDINFO_REQUEST?infoID=27715&seqID=307373462",
+       "content": "<h2>Änderungen im Linienverkehr</h2><p>Von Donnerstag, den 24.09.2026 bis Samstag, den 10.10.2026 findet das Pichmännel-Oktoberfest in der RINNE DRESDEN statt. Zu diesem Anlass wird der Einsatz der Straßenbahnlinie 10 zur Abreise um zwei zusätzliche Fahrten ergänzt (außer an den Sonntagen, 27.09.2026 und 04.10.2026).&nbsp;&nbsp;&nbsp;&nbsp;<br><br><span style=\"color:rgb(0,0,0);\">Einsatz<strong> Linie E10</strong>:&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>Messe, Gleisschleife → Bahnhof Mitte → Postplatz → Hauptbahnhof → S-Bf. Freiberger Straße → Tharandter Straße → Amalie-Dietrich-Platz → Btf. Gorbitz&nbsp;&nbsp;<br><br>Die Abfahrten ab <strong>Messe, Gleisschleife</strong> erfolgen um 00:10 Uhr und 00:25 Uhr.</p>",
+       "subtitle": "Dresden - Pichmännel-Oktoberfest, Verstärkerleistungen",
+       "title": "Linienaenderung",
+       "additionalText": "inEFA=\"true\";MeldungTyp=\"Information\"",
+       "htmlText": "<h2>Änderungen im Linienverkehr</h2><p>Von Donnerstag, den 24.09.2026 bis Samstag, den 10.10.2026 findet das Pichmännel-Oktoberfest in der RINNE DRESDEN statt. Zu diesem Anlass wird der Einsatz der Straßenbahnlinie 10 zur Abreise um zwei zusätzliche Fahrten ergänzt (außer an den Sonntagen, 27.09.2026 und 04.10.2026).&nbsp;&nbsp;&nbsp;&nbsp;<br><br><span style=\"color:rgb(0,0,0);\">Einsatz<strong> Linie E10</strong>:&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>Messe, Gleisschleife → Bahnhof Mitte → Postplatz → Hauptbahnhof → S-Bf. Freiberger Straße → Tharandter Straße → Amalie-Dietrich-Platz → Btf. Gorbitz&nbsp;&nbsp;<br><br>Die Abfahrten ab <strong>Messe, Gleisschleife</strong> erfolgen um 00:10 Uhr und 00:25 Uhr.</p>"
+      }
+     ]
+    }
+   ],
+   "properties": {
+    "AVMSTripID": "6091010001716001003_DVB"
+   }
+  },
+  {
+   "location": {
+    "id": "de:14612:36",
+    "isGlobalId": true,
+    "name": "Dresden Hauptbahnhof (Strehlener Str.)",
+    "type": "platform",
+    "coord": [
+     5371863.0,
+     1528893.0
+    ],
+    "properties": {
+     "stopId": "33000036",
+     "area": "0"
+    },
+    "parent": {
+     "id": "de:14612:36",
+     "isGlobalId": true,
+     "name": "Dresden Hauptbahnhof (Strehlener Str.)",
+     "disassembledName": "Hauptbahnhof (Strehlener Str.)",
+     "type": "stop",
+     "parent": {
+      "name": "Dresden",
+      "type": "locality"
+     },
+     "properties": {
+      "stopId": "33000036"
+     }
+    }
+   },
+   "departureTimePlanned": "2026-10-01T08:43:00Z",
+   "departureTimeBaseTimetable": "2026-10-01T08:43:00Z",
+   "transportation": {
+    "id": "ddb:87D03:C:H:j26",
+    "name": "Ersatzverkehr SEV",
+    "disassembledName": "SEV",
+    "number": "SEV",
+    "product": {
+     "id": 6,
+     "class": 6,
+     "name": "Ersatzverkehr",
+     "iconId": 3
+    },
+    "operator": {
+     "code": "MRB",
+     "id": "CX",
+     "name": "Mitteldeutsche Regiobahn"
+    },
+    "destination": {
+     "id": "33000166",
+     "name": "Dresden S-Bahnhof Plauen",
+     "type": "stop"
+    },
+    "properties": {
+     "trainName": "Schienenersatzverkehr",
+     "trainType": "BSV",
+     "trainNumber": "44056",
+     "tripCode": 33,
+     "lineDisplay": "LINE",
+     "globalId": "de:vms:59-RE3:SEV",
+     "OperatorURL": "https://www.mitteldeutsche-regiobahn.de/"
+    },
+    "origin": {
+     "id": "33000036",
+     "name": "Dresden Hauptbahnhof (Strehlener Str.)",
+     "type": "stop"
+    }
+   },
+   "hints": [
+    {
+     "content": "Ersatzverkehr",
+     "providerCode": "SV",
+     "type": "Timetable",
+     "properties": {
+      "subnet": "ddb"
+     }
+    },
+    {
+     "content": "Fahrradmitnahme begrenzt möglich",
+     "providerCode": "FK",
+     "type": "Timetable",
+     "properties": {
+      "subnet": "ddb"
+     }
+    }
+   ]
+  }
+ ]
+}

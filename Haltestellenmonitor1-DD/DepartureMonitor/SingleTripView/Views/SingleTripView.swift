@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ActivityKit
+import HaltestellenmonitorKit
 
 struct SingleTripView: View {
     @EnvironmentObject var pushTokenHistory: PushTokenHistory
@@ -128,20 +129,8 @@ struct SingleTripView: View {
     }
 
     func getSingleTrip() async {
-        let url = URL(string: "https://efa.vvo-online.de/std3/trias/XML_TRIPSTOPTIMES_REQUEST")!
-        var request = URLRequest(url: url, timeoutInterval: 20)
-        request.httpMethod = "POST"
-
-        let date = getISO8601Date(dateString: stopEvent.departureTimePlanned)
-
-        request.httpBody = createDepartureRequestSingle(stopId: stop.gid, line: stopEvent.transportation.id, tripCode: stopEvent.transportation.properties.tripCode ?? 0, date: getDateStampURL(date: date), time: getTimeStampURL(date: date)).data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
         do {
-            let (content, _) = try await URLSession.shared.data(for: request)
-            let stopSequenceContainer = try JSONDecoder().decode(StopSequenceContainer.self, from: content)
-            let stopEvents = stopSequenceContainer.leg.stopSequence ?? []
+            let stopEvents = try await fetchStopSequence(stop: stop, stopEvent: stopEvent)
 
             await MainActor.run {
                 if stopEvents.count > 0 {
@@ -167,8 +156,8 @@ struct SingleTripView: View {
 
     func startActivity() {
         if ActivityAuthorizationInfo().areActivitiesEnabled {
-            let state = TripAttributes.ContentState(timetabledTime: stopEvent.departureTimePlanned, estimatedTime: stopEvent.departureTimeEstimated)
-            let attributes = TripAttributes(name: stop.name, icon: stopEvent.getIcon(), stopID: String(stop.stopID), lineRef: stopEvent.transportation.id, timetabledTime: stopEvent.departureTimePlanned, directionRef: "outward", publishedLineName: stopEvent.transportation.number, destinationText: stopEvent.transportation.destination.name)
+            let state = TripAttributes.ContentState(timetabledTime: stopEvent.departureTimePlanned.ISO8601Format(), estimatedTime: stopEvent.departureTimeEstimated?.ISO8601Format())
+            let attributes = TripAttributes(name: stop.name, icon: stopEvent.getIcon(), stopID: String(stop.stopID), lineRef: stopEvent.transportation.id, timetabledTime: stopEvent.departureTimePlanned.ISO8601Format(), directionRef: "outward", publishedLineName: stopEvent.transportation.number, destinationText: stopEvent.transportation.destination.name)
 
             let activityContent = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 30, to: Date())!)
 
@@ -197,12 +186,12 @@ struct SingleTripView: View {
         pushTokenHistory.add(token: token)
 
         let url = URL(string: "https://dvb.hsrv.me/api/activity_v2")!
-        let date = getISO8601Date(dateString: stopEvent.departureTimePlanned)
+        let date = stopEvent.departureTimePlanned
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(ActivityRequest(token: token, stopID: stop.gid, line: stopEvent.transportation.id, tripCode: String(stopEvent.transportation.properties.tripCode ?? 0), date: getDateStampURL(date: date), time: getTimeStampURL(date: date)))
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Haltestellenmonitor Dresden v2", forHTTPHeaderField: "User-Agent")
+        request.setValue("Haltestellenmonitor Dresden v4", forHTTPHeaderField: "User-Agent")
 
         let task = URLSession.shared.dataTask(with: request) {(data, _, error) in
             guard error == nil else {

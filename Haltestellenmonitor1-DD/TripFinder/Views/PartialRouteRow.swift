@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HaltestellenmonitorKit
 
 private var timeFrameWidth: CGFloat = 60
 

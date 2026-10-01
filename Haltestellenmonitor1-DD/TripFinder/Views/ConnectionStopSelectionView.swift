@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation
 import Contacts
+import HaltestellenmonitorKit
 
 struct ConnectionStopSelectionView: View {
     @EnvironmentObject var locationManager: LocationManager
@@ -28,20 +29,12 @@ struct ConnectionStopSelectionView: View {
     
     var body: some View {
         NavigationStack {
-            if #available(iOS 17.0, *) {
-                viewBody()
-                    .searchable(
-                        text: $searchText,
-                        isPresented: $isSearchFieldFocused,
-                        placement: .navigationBarDrawer(displayMode: .always)
-                    )
-            } else {
-                viewBody()
-                    .searchable(
-                        text: $searchText,
-                        placement: .navigationBarDrawer(displayMode: .always)
-                    )
-            }
+            viewBody()
+                .searchable(
+                    text: $searchText,
+                    isPresented: $isSearchFieldFocused,
+                    placement: .navigationBarDrawer(displayMode: .always)
+                )
       
         }  .dynamicTypeSize(.medium ... .large)
             .task(id: searchText) {
