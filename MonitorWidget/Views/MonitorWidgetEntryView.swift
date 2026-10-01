@@ -16,19 +16,26 @@ struct MonitorWidgetEntryView: View {
     @Environment(\.widgetFamily) var widgetFamily
     var entry: Provider.Entry
 
-    var body: some View {
-        let prefix = (widgetFamily == .systemLarge || widgetFamily == .systemExtraLarge) ? 16 : 5
+    private var departures: [StopEvent] {
+        let count = (widgetFamily == .systemLarge || widgetFamily == .systemExtraLarge) ? 16 : 5
+        return Array(entry.filterStopEvents(stopEvents: entry.stopEvents ?? []).sorted { $0.departureTime < $1.departureTime }.prefix(count))
+    }
 
+    private var stopURL: URL? {
+        URL(string: "widget://stop/\(String(entry.stop?.stopID ?? 0).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)")
+    }
+
+    var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text(entry.stop?.getName() ?? "")
                     .font(.headline)
                     .padding(.bottom, 1.0)
-                if entry.filterStopEvents(stopEvents: entry.stopEvents ?? []).isEmpty {
+                if departures.isEmpty {
                     Text("Es wurden keine Abfahrten gefunden.")
                         .font(.subheadline)
                 } else {
-                    ForEach(entry.filterStopEvents(stopEvents: entry.stopEvents ?? []).sorted { $0.departureTime < $1.departureTime }.prefix(prefix), id: \.self) { stopEvent in
+                    ForEach(departures) { stopEvent in
                         MonitorWidgetRow(entry: entry, stopEvent: stopEvent)
                     }
                 }
@@ -39,7 +46,7 @@ struct MonitorWidgetEntryView: View {
         .padding([.top, .leading, .bottom])
         .padding(.trailing, 5.0)
         .containerBackground(colorScheme == .dark ? Color.black : Color.yellow, for: .widget)
-        .widgetURL(URL(string: "widget://stop/\(String(entry.stop?.stopID ?? 0).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)"))
+        .widgetURL(stopURL)
         .dynamicTypeSize(.medium ... .large)
     }
 }

@@ -25,106 +25,9 @@ struct DepartureView: View {
     var body: some View {
         Group {
             if isLoaded {
-                let departures = searchResults.sorted { $0.departureTime < $1.departureTime }
-                // start loading the next page while ~10 rows are still left to scroll
-                let prefetchID = departures.dropLast(10).last?.id ?? departures.first?.id
-                Form {
-                    Section {
-                        DisclosureGroup("Verkehrsmittel") {
-                            DepartureDisclosureSection()
-                        }
-                        HStack {
-                            DatePicker(selection: $dateTime, in: Date()...) {
-                                Text("Zeit").accessibilityHint("Bei Bedarf hier gewünschten Zeitpunkt einstellen")
-                            }
-
-                            Button {
-                                dateTime = Date.now
-                            } label: {
-                                Text("Jetzt")
-                                    .accessibilityHint("Auf aktuellen Zeitpunkt zurücksetzen")
-                            }
-                        }
-                    }
-                    Section {
-                            ForEach(departures) { stopEvent in
-                                ZStack {
-                                    NavigationLink {
-                                        SingleTripView(stop: stop, stopEvent: stopEvent)
-                                    } label: {
-                                        EmptyView()
-                                    }
-                                    .opacity(0.0)
-                                    .buttonStyle(.plain)
-
-                                    DepartureRow(stopEvent: stopEvent)
-                                }
-                                .swipeActions(edge: .trailing) {
-                                    if !ProcessInfo().isiOSAppOnMac {
-                                        Button {
-                                            startActivity(stopEvent: stopEvent)
-                                        } label: {
-                                            Label("", systemImage: "pin")
-                                        }
-                                        .tint(.yellow)
-                                    }
-                                }
-                                .accessibilityElement(children: .combine)
-                                .accessibilityAddTraits(.isButton)
-                                .accessibilityHint("Zeige \(stopEvent.hasInfos() ? "Meldungen & " : "")nächste Haltestellen dieser Linie")
-                                .onAppear {
-                                    if stopEvent.id == prefetchID {
-                                        Task { await loadMore() }
-                                    }
-                                }
-                        }
-                    }
-                    if !reachedEnd {
-                        Section {
-                            // fallback when the list is too short to scroll (e.g. strict filters)
-                            Button {
-                                Task { await loadMore() }
-                            } label: {
-                                if isLoadingMore {
-                                    ProgressView()
-                                } else {
-                                    Text("Spätere Abfahrten laden")
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .disabled(isLoadingMore)
-                            .onAppear {
-                                Task { await loadMore() }
-                            }
-                        }
-                    }
-                }
+                loadedForm
             } else {
-                // Skeleton
-                Form {
-                    Section {
-                        DisclosureGroup("Verkehrsmittel") {
-                            DepartureDisclosureSection()
-                        }
-
-                        HStack {
-                            DatePicker("Zeit", selection: $dateTime)
-
-                            Button {
-                                dateTime = Date.now
-                            } label: {
-                                Text("Jetzt")
-                            }
-                        }
-                    }
-                    .disabled(true)
-                    .accessibilityHint("Warte auf Daten")
-                    Section {
-                        List(0..<9, id: \.self) { _ in
-                            DepartureRowSkeleton()
-                        }
-                    }
-                }
+                skeletonForm
             }
         }
         .refreshable {
@@ -180,12 +83,127 @@ struct DepartureView: View {
             }
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .onChange(of: dateTime) { _ in
+        .onChange(of: dateTime) {
             Task {
                 await getDeparture(reset: true)
             }
         }
         .environmentObject(departureFilter)
+    }
+
+    // Split into separate properties: one big body took >200 ms to type-check.
+
+    private var loadedForm: some View {
+        let departures = searchResults.sorted { $0.departureTime < $1.departureTime }
+        // start loading the next page while ~10 rows are still left to scroll
+        let prefetchID = departures.dropLast(10).last?.id ?? departures.first?.id
+
+        return Form {
+            Section {
+                DisclosureGroup("Verkehrsmittel") {
+                    DepartureDisclosureSection()
+                }
+                HStack {
+                    DatePicker(selection: $dateTime, in: Date()...) {
+                        Text("Zeit").accessibilityHint("Bei Bedarf hier gewünschten Zeitpunkt einstellen")
+                    }
+
+                    Button {
+                        dateTime = Date.now
+                    } label: {
+                        Text("Jetzt")
+                            .accessibilityHint("Auf aktuellen Zeitpunkt zurücksetzen")
+                    }
+                }
+            }
+            Section {
+                ForEach(departures) { stopEvent in
+                    departureRow(stopEvent)
+                        .onAppear {
+                            if stopEvent.id == prefetchID {
+                                Task { await loadMore() }
+                            }
+                        }
+                }
+            }
+            if !reachedEnd {
+                loadMoreSection
+            }
+        }
+    }
+
+    private func departureRow(_ stopEvent: StopEvent) -> some View {
+        ZStack {
+            NavigationLink {
+                SingleTripView(stop: stop, stopEvent: stopEvent)
+            } label: {
+                EmptyView()
+            }
+            .opacity(0.0)
+            .buttonStyle(.plain)
+
+            DepartureRow(stopEvent: stopEvent)
+        }
+        .swipeActions(edge: .trailing) {
+            if !ProcessInfo().isiOSAppOnMac {
+                Button {
+                    startActivity(stopEvent: stopEvent)
+                } label: {
+                    Label("", systemImage: "pin")
+                }
+                .tint(.yellow)
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Zeige \(stopEvent.hasInfos() ? "Meldungen & " : "")nächste Haltestellen dieser Linie")
+    }
+
+    private var loadMoreSection: some View {
+        Section {
+            // fallback when the list is too short to scroll (e.g. strict filters)
+            Button {
+                Task { await loadMore() }
+            } label: {
+                if isLoadingMore {
+                    ProgressView()
+                } else {
+                    Text("Spätere Abfahrten laden")
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .disabled(isLoadingMore)
+            .onAppear {
+                Task { await loadMore() }
+            }
+        }
+    }
+
+    private var skeletonForm: some View {
+        Form {
+            Section {
+                DisclosureGroup("Verkehrsmittel") {
+                    DepartureDisclosureSection()
+                }
+
+                HStack {
+                    DatePicker("Zeit", selection: $dateTime)
+
+                    Button {
+                        dateTime = Date.now
+                    } label: {
+                        Text("Jetzt")
+                    }
+                }
+            }
+            .disabled(true)
+            .accessibilityHint("Warte auf Daten")
+            Section {
+                ForEach(0..<9, id: \.self) { _ in
+                    DepartureRowSkeleton()
+                }
+            }
+        }
     }
 
     var searchResults: [StopEvent] {

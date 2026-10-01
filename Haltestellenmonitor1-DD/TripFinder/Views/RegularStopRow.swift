@@ -11,6 +11,12 @@ struct RegularStopRow: View {
     var regularStop: RegularStop
     var isFirst: Bool
 
+    // first stop of a leg shows departure, the others arrival
+    private var kind: String { isFirst ? "Abfahrt" : "Ankunft" }
+    private var plannedTime: String { isFirst ? regularStop.getDepartureTime() : regularStop.getArrivalTime() }
+    private var realTime: String { isFirst ? regularStop.getRealDepartureTime() : regularStop.getRealArrivalTime() }
+    private var delay: Int { isFirst ? regularStop.getTimeDifferenceDeparture() : regularStop.getTimeDifference() }
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -25,33 +31,20 @@ struct RegularStopRow: View {
                 }
             }
             HStack {
-                Text("\(isFirst ? regularStop.getDepartureTime() :  regularStop.getArrivalTime()) Uhr")
-                    .accessibilityLabel("Geplante \(isFirst ? "Abfahrt " + regularStop.getDepartureTime() :  "Ankunft " + regularStop.getArrivalTime()) Uhr")
-                if isFirst {
-                    if regularStop.getTimeDifferenceDeparture() > 0 {
-                        Text("+\(regularStop.getTimeDifferenceDeparture())")
-                            .foregroundColor(Color.red)
-                            .accessibilityLabel("\(regularStop.getTimeDifferenceDeparture()) \(regularStop.getTimeDifferenceDeparture() == 1 ? "Minute" : "Minuten") Verspätung")
-                    } else if regularStop.getTimeDifferenceDeparture() < 0 {
-                        Text("\(regularStop.getTimeDifferenceDeparture())")
-                            .foregroundColor(Color.green)
-                            .accessibilityLabel("\(abs(regularStop.getTimeDifferenceDeparture())) \(regularStop.getTimeDifferenceDeparture() == -1 ? "Minute" : "Minuten") früher")
-                    }
-                } else {
-                    if regularStop.getTimeDifference() > 0 {
-                        Text("+\(regularStop.getTimeDifference())")
-                            .foregroundColor(Color.red)
-                            .accessibilityLabel("\(regularStop.getTimeDifferenceDeparture()) \(regularStop.getTimeDifferenceDeparture() == 1 ? "Minute" : "Minuten") Verspätung")
-                    } else if regularStop.getTimeDifference() < 0 {
-                        Text("\(regularStop.getTimeDifference())")
-                            .foregroundColor(Color.green)
-                            .accessibilityLabel("\(abs(regularStop.getTimeDifferenceDeparture())) \(regularStop.getTimeDifferenceDeparture() == -1 ? "Minute" : "Minuten") früher")
-                    }
+                Text("\(plannedTime) Uhr")
+                    .accessibilityLabel("Geplante \(kind) \(plannedTime) Uhr")
+                if delay > 0 {
+                    Text("+\(delay)")
+                        .foregroundColor(Color.red)
+                        .accessibilityLabel("\(delay) \(delay == 1 ? "Minute" : "Minuten") Verspätung")
+                } else if delay < 0 {
+                    Text("\(delay)")
+                        .foregroundColor(Color.green)
+                        .accessibilityLabel("\(abs(delay)) \(delay == -1 ? "Minute" : "Minuten") früher")
                 }
                 Spacer()
-                Text("\(isFirst ? regularStop.getRealDepartureTime() : regularStop.getRealArrivalTime()) Uhr")
-                    .accessibilityLabel("Voraussichtliche \(isFirst ? "Abfahrt " + regularStop.getRealDepartureTime() :  "Ankunft " + regularStop.getRealArrivalTime()) Uhr")
-
+                Text("\(realTime) Uhr")
+                    .accessibilityLabel("Voraussichtliche \(kind) \(realTime) Uhr")
             }
         }
         .font(.subheadline)
