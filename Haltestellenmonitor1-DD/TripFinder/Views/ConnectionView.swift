@@ -17,6 +17,7 @@ struct ConnectionView: View {
     @State var showingSheet = false
     @State var showingAlert = false
     @State var showingAlertEqual = false
+    @State var showingErrorAlert = false
     @State var showingSaveAlert = false
     @State var dateTime = Date.now
     @State var isArrivalTime = 0 // false
@@ -74,6 +75,9 @@ struct ConnectionView: View {
                 } label: {
                     Text("OK")
                 }
+            }
+            .alert("Verbindungen konnten nicht geladen werden", isPresented: $showingErrorAlert) {
+                Button("OK") {}
             }
             .alert("Wie soll der Favorit gespeichert werden?", isPresented: $showingSaveAlert) {
                 TextField("Name", text: $favoriteName)
@@ -315,7 +319,7 @@ struct ConnectionView: View {
         requestData = TripRequest(time: dateTime.ISO8601Format(), isarrivaltime: isArrivalTime == 1, origin: startStr, destination: endStr, standardSettings: standardSettings)
     }
 
-    func getTripData(isNext: Bool = false) async {
+    func getTripData(isNext: Bool = false, attempt: Int = 1) async {
         if requestData == nil {
             return
         }
@@ -344,11 +348,12 @@ struct ConnectionView: View {
 
             isLoading = false
         } catch {
-            print("error: \(error)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                Task {
-                    await getTripData(isNext: isNext)
-                }
+            print("TripFinder error: \(error)")
+            if attempt < 3, (try? await Task.sleep(for: .seconds(1))) != nil {
+                await getTripData(isNext: isNext, attempt: attempt + 1)
+            } else {
+                isLoading = false
+                showingErrorAlert = !Task.isCancelled
             }
         }
     }
