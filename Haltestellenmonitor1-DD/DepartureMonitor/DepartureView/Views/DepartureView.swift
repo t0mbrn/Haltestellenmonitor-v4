@@ -35,7 +35,7 @@ struct DepartureView: View {
             if dateTime < Date.now {
                 dateTime = Date.now
             }
-            await getDeparture()
+            await getDeparture(reset: true)
         }
         .navigationTitle(Text("🚏 \(stop.name)").accessibilityLabel("Haltestelle \(stop.name)"))
         .toolbar {
