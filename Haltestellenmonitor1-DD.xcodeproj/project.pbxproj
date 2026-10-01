@@ -171,7 +171,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				MonitorIntents.entitlements,
 			);
 			target = D0BD66A829EFECF1004E574C /* MonitorIntents */;
 		};
@@ -185,7 +184,6 @@
 		9E7AE4826EF3FE253BF5FA4A /* Exceptions for "Haltestellenmonitor1-DD" folder in "Haltestellenmonitor1-DD" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Haltestellenmonitor1-DD.entitlements",
 				Info.plist,
 			);
 			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
@@ -274,25 +272,25 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		13D5A7D605D00D7CB824A9FB /* Exceptions for "IntentDefinition" folder in "Sources" phase from "MonitorIntents" target */ = {
+		13D5A7D605D00D7CB824A9FB /* Exceptions for "IntentDefinition" folder in "Compile Sources" phase from "MonitorIntents" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = D0BD66A529EFECF1004E574C /* Sources */;
 			membershipExceptions = (
-				/Localized/MonitorWidget.intentdefinition,
+				"/Localized: MonitorWidget.intentdefinition",
 			);
 		};
-		1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Sources" phase from "Haltestellenmonitor1-DD" target */ = {
+		1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Compile Sources" phase from "Haltestellenmonitor1-DD" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = D03A267B29EEB6C9005B0600 /* Sources */;
 			membershipExceptions = (
-				/Localized/MonitorWidget.intentdefinition,
+				"/Localized: MonitorWidget.intentdefinition",
 			);
 		};
-		E0686D75AD65175B304B1A0C /* Exceptions for "IntentDefinition" folder in "Sources" phase from "MonitorWidgetExtension" target */ = {
+		E0686D75AD65175B304B1A0C /* Exceptions for "IntentDefinition" folder in "Compile Sources" phase from "MonitorWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = D0BD667F29EFE0AA004E574C /* Sources */;
 			membershipExceptions = (
-				/Localized/MonitorWidget.intentdefinition,
+				"/Localized: MonitorWidget.intentdefinition",
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -301,9 +299,9 @@
 		4A9F3BF6571E5B4643259CBB /* IntentDefinition */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Sources" phase from "Haltestellenmonitor1-DD" target */,
-				E0686D75AD65175B304B1A0C /* Exceptions for "IntentDefinition" folder in "Sources" phase from "MonitorWidgetExtension" target */,
-				13D5A7D605D00D7CB824A9FB /* Exceptions for "IntentDefinition" folder in "Sources" phase from "MonitorIntents" target */,
+				1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Compile Sources" phase from "Haltestellenmonitor1-DD" target */,
+				E0686D75AD65175B304B1A0C /* Exceptions for "IntentDefinition" folder in "Compile Sources" phase from "MonitorWidgetExtension" target */,
+				13D5A7D605D00D7CB824A9FB /* Exceptions for "IntentDefinition" folder in "Compile Sources" phase from "MonitorIntents" target */,
 			);
 			path = IntentDefinition;
 			sourceTree = "<group>";
@@ -598,10 +596,10 @@
 				Base,
 				de,
 			);
-			preferredProjectObjectVersion = 77;
 			mainGroup = D03A267629EEB6C9005B0600;
 			packageReferences = (
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = D03A268029EEB6C9005B0600 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
