@@ -16,7 +16,7 @@ struct DepartureView: View {
     var body: some View {
         Group {
             if isLoaded {
-                List(searchResults.sorted { ($0.departureTimeEstimated ?? $0.departureTimePlanned) < ($1.departureTimeEstimated ?? $1.departureTimePlanned) }, id: \.self) { stopEvent in
+                List(searchResults.sorted { $0.departureTime < $1.departureTime }, id: \.self) { stopEvent in
                     NavigationLink {
                         SingleTripView(stop: stop, stopEvent: stopEvent)
                     } label: {

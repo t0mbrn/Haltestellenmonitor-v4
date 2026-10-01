@@ -25,10 +25,19 @@ func getDateStampURL(date: Date = Date()) -> String {
     return dFormatter.string(for: date) ?? ""
 }
 
-func getISO8601Date(dateString: String?) -> Date {
-    if let dateString = dateString {
-        let formatter = ISO8601DateFormatter()
-        return formatter.date(from: dateString) ?? Date.now
+
+/// Whole-minute difference with seconds ignored, as departure boards show delays.
+func minutesBetween(_ from: Date, _ to: Date) -> Int {
+    let calendar = Calendar.current
+    let components: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute]
+    return calendar.dateComponents([.minute], from: calendar.dateComponents(components, from: from), to: calendar.dateComponents(components, from: to)).minute!
+}
+
+extension JSONDecoder {
+    /// EFA (efa.vvo-online.de) sends ISO 8601 timestamps.
+    static var efa: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return decoder
     }
-    return Date.now
 }

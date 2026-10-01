@@ -21,7 +21,10 @@ struct DateParser {
                 Int64(match)
             }
 
-            "-"
+            ChoiceOf {
+                "-"
+                "+"
+            }
 
             TryCapture(as: timeZoneRef) {
                 OneOrMore(.digit)
@@ -39,5 +42,21 @@ struct DateParser {
         }
 
         return nil
+    }
+}
+
+extension JSONDecoder {
+    /// WebAPI (webapi.vvo-online.de) sends .NET style "/Date(1681824120000-0000)/" timestamps.
+    static var vvo: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+            guard let date = DateParser.extractTimestamp(time: string) else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date: \(string)")
+            }
+            return date
+        }
+        return decoder
     }
 }

@@ -130,9 +130,9 @@ struct StopEvent: Hashable, Codable {
     var isCancelled: Bool?
     var isRealtimeControlled: Bool?
     var location: Location
-    var departureTimePlanned: String
-    var departureTimeBaseTimetable: String
-    var departureTimeEstimated: String?
+    var departureTimePlanned: Date
+    var departureTimeBaseTimetable: Date
+    var departureTimeEstimated: Date?
 
     var transportation: Transportation
 
@@ -168,57 +168,26 @@ struct StopEvent: Hashable, Codable {
         getColorEFA(iconId: self.transportation.product.iconId)
     }
 
-    func getScheduledTime() -> String {
-        let date = getISO8601Date(dateString: self.departureTimePlanned)
+    var departureTime: Date {
+        departureTimeEstimated ?? departureTimePlanned
+    }
 
-        return getTimeStamp(date: date)
+    func getScheduledTime() -> String {
+        getTimeStamp(date: departureTimePlanned)
     }
 
     func getEstimatedTime() -> String {
-        if self.departureTimeEstimated == nil {
-            return self.getScheduledTime()
-        }
-
-        let date = getISO8601Date(dateString: self.departureTimeEstimated!)
-
-        return getTimeStamp(date: date)
+        getTimeStamp(date: departureTime)
     }
 
     func getTimeDifference() -> Int {
-        if self.departureTimeEstimated == nil {
-            return 0
-        }
-        let realtimeDate = getISO8601Date(dateString: self.departureTimeEstimated)
-        let scheduledTimeDate = getISO8601Date(dateString: self.departureTimePlanned)
-
-        let calendar = Calendar.current
-
-        let realtimeComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: realtimeDate)
-        let scheduledTimeComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: scheduledTimeDate)
-
-        return calendar.dateComponents([.minute], from: scheduledTimeComponents, to: realtimeComponents).minute!
+        guard let departureTimeEstimated else { return 0 }
+        return minutesBetween(departureTimePlanned, departureTimeEstimated)
     }
 
     func getIn(date: Date = Date(), realInTime: Bool = false) -> Int {
-        var time = self.departureTimePlanned
-        if self.departureTimeEstimated != nil {
-            time = self.departureTimeEstimated!
-        }
-
-        let timeDate = getISO8601Date(dateString: time)
-
-        let calendar = Calendar.current
-
-        let timeComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: timeDate)
-        let currentComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-
-        var inTime = calendar.dateComponents([.minute], from: currentComponents, to: timeComponents).minute!
-
-        if !realInTime && inTime < 0 {
-            inTime = 0
-        }
-
-        return inTime
+        let inTime = minutesBetween(date, departureTime)
+        return realInTime ? inTime : max(inTime, 0)
     }
 
     func getPlatform() -> String {

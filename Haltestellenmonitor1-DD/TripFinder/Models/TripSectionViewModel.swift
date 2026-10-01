@@ -126,12 +126,9 @@ class TripSectionViewModel: ObservableObject {
                     guard let  insertedEnd = partialRoute.getStartTime() else {
                         continue
                     }
-                    let startTime = "/Date(\(Int(insertedStart.timeIntervalSince1970)*1000)-0000)/"
-                    let endime = "/Date(\(Int(insertedEnd.timeIntervalSince1970)*1000)-0000)/"
-
                     let x =  PartialRoute(Mot: Mot(type: "InsertedWaiting"), RegularStops: [
-                        RegularStop(ArrivalTime: startTime, DepartureTime: startTime, Place: "", Name: "x", type: "", Latitude: -1, Longitude: -1, DataId: "-1"),
-                        RegularStop(ArrivalTime: endime, DepartureTime: endime, Place: "", Name: "x", type: "", Latitude: -1, Longitude: -1, DataId: "-1")
+                        RegularStop(ArrivalTime: insertedStart, DepartureTime: insertedStart, Place: "", Name: "x", type: "", Latitude: -1, Longitude: -1, DataId: "-1"),
+                        RegularStop(ArrivalTime: insertedEnd, DepartureTime: insertedEnd, Place: "", Name: "x", type: "", Latitude: -1, Longitude: -1, DataId: "-1")
                     ])
                     arr.append(x)
                 }

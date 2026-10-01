@@ -28,7 +28,7 @@ struct MonitorWidgetEntryView: View {
                     Text("Es wurden keine Abfahrten gefunden.")
                         .font(.subheadline)
                 } else {
-                    ForEach(entry.filterStopEvents(stopEvents: entry.stopEvents ?? []).sorted { ($0.departureTimeEstimated ?? $0.departureTimePlanned) < ($1.departureTimeEstimated ?? $1.departureTimePlanned) }.prefix(prefix), id: \.self) { stopEvent in
+                    ForEach(entry.filterStopEvents(stopEvents: entry.stopEvents ?? []).sorted { $0.departureTime < $1.departureTime }.prefix(prefix), id: \.self) { stopEvent in
                         MonitorWidgetRow(entry: entry, stopEvent: stopEvent)
                     }
                 }

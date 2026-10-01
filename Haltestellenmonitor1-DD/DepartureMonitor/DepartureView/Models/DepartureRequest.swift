@@ -19,5 +19,5 @@ func fetchDepartures(stopId: String, date: Date = .now) async throws -> [StopEve
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (content, _) = try await URLSession.shared.data(for: request)
-    return try JSONDecoder().decode(StopEventContainer.self, from: content).stopEvents ?? []
+    return try JSONDecoder.efa.decode(StopEventContainer.self, from: content).stopEvents ?? []
 }

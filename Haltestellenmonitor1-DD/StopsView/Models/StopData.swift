@@ -8,9 +8,9 @@
 import Foundation
 
 var stops: [Stop] = load("stops.json")
-var tripTmp: Trip = load("trip.json")
+var tripTmp: Trip = load("trip.json", decoder: .vvo)
 
-func load<T: Decodable>(_ filename: String) -> T {
+func load<T: Decodable>(_ filename: String, decoder: JSONDecoder = JSONDecoder()) -> T {
     let data: Data
 
     guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
@@ -25,7 +25,6 @@ func load<T: Decodable>(_ filename: String) -> T {
     }
 
     do {
-        let decoder = JSONDecoder()
         return try decoder.decode(T.self, from: data)
     } catch {
         fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")

@@ -14,17 +14,16 @@ func createDepartureRequestSingle(stopId: String, line: String, tripCode: Int, d
 func fetchStopSequence(stop: Stop, stopEvent: StopEvent) async throws -> [StopSequenceItem] {
     var request = URLRequest(url: URL(string: "https://efa.vvo-online.de/std3/trias/XML_TRIPSTOPTIMES_REQUEST")!, timeoutInterval: 20)
     request.httpMethod = "POST"
-    let date = getISO8601Date(dateString: stopEvent.departureTimePlanned)
     request.httpBody = createDepartureRequestSingle(
         stopId: stop.gid,
         line: stopEvent.transportation.id,
         tripCode: stopEvent.transportation.properties.tripCode ?? 0,
-        date: getDateStampURL(date: date),
-        time: getTimeStampURL(date: date)
+        date: getDateStampURL(date: stopEvent.departureTimePlanned),
+        time: getTimeStampURL(date: stopEvent.departureTimePlanned)
     ).data(using: .utf8)
     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
 
     let (content, _) = try await URLSession.shared.data(for: request)
-    return try JSONDecoder().decode(StopSequenceContainer.self, from: content).leg.stopSequence ?? []
+    return try JSONDecoder.efa.decode(StopSequenceContainer.self, from: content).leg.stopSequence ?? []
 }

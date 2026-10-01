@@ -155,8 +155,8 @@ struct SingleTripView: View {
 
     func startActivity() {
         if ActivityAuthorizationInfo().areActivitiesEnabled {
-            let state = TripAttributes.ContentState(timetabledTime: stopEvent.departureTimePlanned, estimatedTime: stopEvent.departureTimeEstimated)
-            let attributes = TripAttributes(name: stop.name, icon: stopEvent.getIcon(), stopID: String(stop.stopID), lineRef: stopEvent.transportation.id, timetabledTime: stopEvent.departureTimePlanned, directionRef: "outward", publishedLineName: stopEvent.transportation.number, destinationText: stopEvent.transportation.destination.name)
+            let state = TripAttributes.ContentState(timetabledTime: stopEvent.departureTimePlanned.ISO8601Format(), estimatedTime: stopEvent.departureTimeEstimated?.ISO8601Format())
+            let attributes = TripAttributes(name: stop.name, icon: stopEvent.getIcon(), stopID: String(stop.stopID), lineRef: stopEvent.transportation.id, timetabledTime: stopEvent.departureTimePlanned.ISO8601Format(), directionRef: "outward", publishedLineName: stopEvent.transportation.number, destinationText: stopEvent.transportation.destination.name)
 
             let activityContent = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 30, to: Date())!)
 
@@ -185,7 +185,7 @@ struct SingleTripView: View {
         pushTokenHistory.add(token: token)
 
         let url = URL(string: "https://dvb.hsrv.me/api/activity_v2")!
-        let date = getISO8601Date(dateString: stopEvent.departureTimePlanned)
+        let date = stopEvent.departureTimePlanned
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(ActivityRequest(token: token, stopID: stop.gid, line: stopEvent.transportation.id, tripCode: String(stopEvent.transportation.properties.tripCode ?? 0), date: getDateStampURL(date: date), time: getTimeStampURL(date: date)))

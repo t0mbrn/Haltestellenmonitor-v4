@@ -342,9 +342,8 @@ struct ConnectionView: View {
         do {
             let (content, _) = try await URLSession.shared.data(for: request)
 
-            let decoder = JSONDecoder()
             numbernext = 0
-            self.trip = try decoder.decode(Trip.self, from: content)
+            self.trip = try JSONDecoder.vvo.decode(Trip.self, from: content)
 
             isLoading = false
         } catch {
