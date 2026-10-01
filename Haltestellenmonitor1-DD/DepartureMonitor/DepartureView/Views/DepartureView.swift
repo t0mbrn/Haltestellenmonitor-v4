@@ -18,69 +18,84 @@ struct DepartureView: View {
     @State private var dateTime = Date.now
     @State private var showingSuccessAlert = false
     @State private var showingErrorAlert = false
+    @State private var isLoadingMore = false
+    @State private var reachedEnd = false
     @StateObject var departureFilter = DepartureFilter()
 
     var body: some View {
         Group {
             if isLoaded {
-                VStack {
-                    Form {
-                        Section {
-                            DisclosureGroup("Verkehrsmittel") {
-                                DepartureDisclosureSection()
-                            }
-                            HStack {
-                                DatePicker(selection: $dateTime, in: Date()...) {
-                                    Text("Zeit").accessibilityHint("Bei Bedarf hier gewünschten Zeitpunkt einstellen")
-                                }
-
-                                Button {
-                                    dateTime = Date.now
-                                } label: {
-                                    Text("Jetzt")
-                                        .accessibilityHint("Auf aktuellen Zeitpunkt zurücksetzen")
-                                }
-                            }
+                let departures = searchResults.sorted { $0.departureTime < $1.departureTime }
+                // start loading the next page while ~10 rows are still left to scroll
+                let prefetchID = departures.dropLast(10).last?.id ?? departures.first?.id
+                Form {
+                    Section {
+                        DisclosureGroup("Verkehrsmittel") {
+                            DepartureDisclosureSection()
                         }
-                        Section {
-                            // speed-up: don't use the getter
-                            // no utc conversion needed for comparison
-                                List(searchResults.sorted { $0.departureTime < $1.departureTime }, id: \.self) { stopEvent in
-                                    ZStack {
-                                        NavigationLink {
-                                            SingleTripView(stop: stop, stopEvent: stopEvent)
-                                        } label: {
-                                            EmptyView()
-                                        }
-                                        .opacity(0.0)
-                                        .buttonStyle(.plain)
-
-                                        DepartureRow(stopEvent: stopEvent)
-                                    }
-                                    .swipeActions(edge: .trailing) {
-                                        if !ProcessInfo().isiOSAppOnMac {
-                                            Button {
-                                                startActivity(stopEvent: stopEvent)
-                                            } label: {
-                                                Label("", systemImage: "pin")
-                                            }
-                                            .tint(.yellow)
-                                        }
-                                    }
-                                    .accessibilityElement(children: .combine)
-                                    .accessibilityAddTraits(.isButton)
-                                    .accessibilityHint("Zeige \(stopEvent.hasInfos() ? "Meldungen & " : "")nächste Haltestellen dieser Linie")
+                        HStack {
+                            DatePicker(selection: $dateTime, in: Date()...) {
+                                Text("Zeit").accessibilityHint("Bei Bedarf hier gewünschten Zeitpunkt einstellen")
                             }
-                           
-                        }
-                        Section {
+
                             Button {
-                                // onChange(of: dateTime) reloads
-                                dateTime = max(dateTime, .now) + 5 * 60
+                                dateTime = Date.now
                             } label: {
-                                Text("Spätere Abfahrten laden")
+                                Text("Jetzt")
+                                    .accessibilityHint("Auf aktuellen Zeitpunkt zurücksetzen")
+                            }
+                        }
+                    }
+                    Section {
+                            ForEach(departures) { stopEvent in
+                                ZStack {
+                                    NavigationLink {
+                                        SingleTripView(stop: stop, stopEvent: stopEvent)
+                                    } label: {
+                                        EmptyView()
+                                    }
+                                    .opacity(0.0)
+                                    .buttonStyle(.plain)
+
+                                    DepartureRow(stopEvent: stopEvent)
+                                }
+                                .swipeActions(edge: .trailing) {
+                                    if !ProcessInfo().isiOSAppOnMac {
+                                        Button {
+                                            startActivity(stopEvent: stopEvent)
+                                        } label: {
+                                            Label("", systemImage: "pin")
+                                        }
+                                        .tint(.yellow)
+                                    }
+                                }
+                                .accessibilityElement(children: .combine)
+                                .accessibilityAddTraits(.isButton)
+                                .accessibilityHint("Zeige \(stopEvent.hasInfos() ? "Meldungen & " : "")nächste Haltestellen dieser Linie")
+                                .onAppear {
+                                    if stopEvent.id == prefetchID {
+                                        Task { await loadMore() }
+                                    }
+                                }
+                        }
+                    }
+                    if !reachedEnd {
+                        Section {
+                            // fallback when the list is too short to scroll (e.g. strict filters)
+                            Button {
+                                Task { await loadMore() }
+                            } label: {
+                                if isLoadingMore {
+                                    ProgressView()
+                                } else {
+                                    Text("Spätere Abfahrten laden")
+                                }
                             }
                             .frame(maxWidth: .infinity)
+                            .disabled(isLoadingMore)
+                            .onAppear {
+                                Task { await loadMore() }
+                            }
                         }
                     }
                 }
@@ -150,7 +165,7 @@ struct DepartureView: View {
         }
 
         .task(id: stop.id, priority: .userInitiated) {
-            await getDeparture()
+            await getDeparture(reset: true)
 
             while !Task.isCancelled {
                 do {
@@ -167,7 +182,7 @@ struct DepartureView: View {
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .onChange(of: dateTime) { _ in
             Task {
-                await getDeparture()
+                await getDeparture(reset: true)
             }
         }
         .environmentObject(departureFilter)
@@ -193,13 +208,19 @@ struct DepartureView: View {
         }
     }
 
-    func getDeparture() async {
+    /// Loads the first page. `reset` replaces the list; otherwise pages appended by scrolling are kept.
+    func getDeparture(reset: Bool = false) async {
         let localDateTime = max(dateTime, .now)
 
         do {
-            let stopEvents = try await fetchDepartures(stopId: stop.gid, date: localDateTime)
+            let firstPage = try await fetchDepartures(stopId: stop.gid, date: localDateTime)
             await MainActor.run {
-                self.stopEvents = stopEvents
+                if reset {
+                    self.stopEvents = firstPage
+                    self.reachedEnd = false
+                } else {
+                    self.stopEvents = mergeFirstPage(firstPage, into: self.stopEvents)
+                }
                 self.isLoaded = true
             }
 
@@ -209,13 +230,29 @@ struct DepartureView: View {
                 do {
                     try await Task.sleep(for: .seconds(1))
                     if !Task.isCancelled {
-                        await getDeparture()
+                        await getDeparture(reset: reset)
                     }
                 } catch {
                     // Task was cancelled during sleep
                     return
                 }
             }
+        }
+    }
+
+    /// Appends the departures following the last loaded one.
+    func loadMore() async {
+        guard !isLoadingMore, !reachedEnd, let last = stopEvents.map(\.departureTimePlanned).max() else { return }
+        isLoadingMore = true
+        defer { isLoadingMore = false }
+
+        guard let page = try? await fetchDepartures(stopId: stop.gid, date: last) else { return }
+        let known = Set(stopEvents.map(\.id))
+        let new = page.filter { !known.contains($0.id) }
+        if new.isEmpty {
+            reachedEnd = true
+        } else {
+            stopEvents += new
         }
     }
 

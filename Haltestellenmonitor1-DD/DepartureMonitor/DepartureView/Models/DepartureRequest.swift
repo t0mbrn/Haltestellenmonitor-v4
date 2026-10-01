@@ -21,3 +21,10 @@ func fetchDepartures(stopId: String, date: Date = .now) async throws -> [StopEve
     let (content, _) = try await URLSession.shared.data(for: request)
     return try JSONDecoder.efa.decode(StopEventContainer.self, from: content).stopEvents ?? []
 }
+
+/// Refreshed first page replaces what it covers; later pages loaded by scrolling are kept.
+func mergeFirstPage(_ firstPage: [StopEvent], into existing: [StopEvent]) -> [StopEvent] {
+    let pageEnd = firstPage.map(\.departureTimePlanned).max() ?? .distantPast
+    let ids = Set(firstPage.map(\.id))
+    return firstPage + existing.filter { $0.departureTimePlanned > pageEnd && !ids.contains($0.id) }
+}

@@ -10,14 +10,6 @@ import SwiftUI
 struct DepartureRow: View {
     var stopEvent: StopEvent
 
-    @ObservedObject private var departureBinding: DepartureBinding
-
-    init(stopEvent: StopEvent) {
-        self.stopEvent = stopEvent
-
-        self.departureBinding = DepartureBinding(inMinute: stopEvent.getIn())
-    }
-
     var body: some View {
         HStack(alignment: .center) {
             Text(stopEvent.getIcon())
@@ -69,8 +61,8 @@ struct DepartureRow: View {
                         Text("Fahrt fällt aus")
                             .foregroundColor(Color.red)
                     } else {
-                    Text("in \(departureBinding.inMinute) min")
-                            .accessibilityLabel("Abfahrt in \(departureBinding.inMinute) min")
+                    Text("in \(stopEvent.getIn()) min")
+                            .accessibilityLabel("Abfahrt in \(stopEvent.getIn()) min")
                             .accessibilitySortPriority(1)
                     }
                 }

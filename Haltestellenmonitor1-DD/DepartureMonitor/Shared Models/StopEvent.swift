@@ -124,7 +124,7 @@ struct Info: Hashable, Codable {
 //    var type: String
 // }
 
-struct StopEvent: Hashable, Codable {
+struct StopEvent: Hashable, Codable, Identifiable {
 
     var realtimeStatus: [String]? // ignore?
     var isCancelled: Bool?
@@ -166,6 +166,11 @@ struct StopEvent: Hashable, Codable {
 
     func getColor() -> Color {
         getColorEFA(iconId: self.transportation.product.iconId)
+    }
+
+    /// Stable across realtime updates, unlike the synthesized hash.
+    var id: String {
+        "\(transportation.id)|\(transportation.properties.tripCode ?? 0)|\(departureTimePlanned.timeIntervalSince1970)"
     }
 
     var departureTime: Date {

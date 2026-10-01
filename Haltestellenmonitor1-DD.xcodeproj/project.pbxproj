@@ -105,7 +105,6 @@
 		2AB8A6ACCEF7BD4F24D39F99 /* Exceptions for "Haltestellenmonitor1-DD" folder in "WatchMonitor Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				DepartureMonitor/DepartureView/Models/DepartureBinding.swift,
 				DepartureMonitor/DepartureView/Models/DepartureFilter.swift,
 				DepartureMonitor/DepartureView/Models/DepartureRequest.swift,
 				"DepartureMonitor/Shared Models/ActivityRequest.swift",
@@ -194,7 +193,6 @@
 		B2D2AFF9C8B0BBC242A5C8AB /* Exceptions for "Haltestellenmonitor1-DD" folder in "MonitorWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				DepartureMonitor/DepartureView/Models/DepartureBinding.swift,
 				DepartureMonitor/DepartureView/Models/DepartureFilter.swift,
 				DepartureMonitor/DepartureView/Models/DepartureRequest.swift,
 				"DepartureMonitor/Shared Models/ActivityRequest.swift",
@@ -235,7 +233,6 @@
 		CDD9A7BE71C17FE643333407 /* Exceptions for "Haltestellenmonitor1-DD" folder in "MonitorIntents" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				DepartureMonitor/DepartureView/Models/DepartureBinding.swift,
 				DepartureMonitor/DepartureView/Models/DepartureFilter.swift,
 				DepartureMonitor/DepartureView/Models/DepartureRequest.swift,
 				"DepartureMonitor/Shared Models/ActivityRequest.swift",

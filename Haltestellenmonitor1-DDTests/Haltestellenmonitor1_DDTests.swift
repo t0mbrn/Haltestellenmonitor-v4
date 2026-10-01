@@ -52,6 +52,26 @@ final class Haltestellenmonitor1_DDTests: XCTestCase {
         XCTAssertEqual(event.getIn(date: later, realInTime: true), -8)
     }
 
+    func testIDStableAcrossRealtimeUpdates() throws {
+        let event = try departures()[0]
+        var updated = event
+        updated.departureTimeEstimated = event.departureTimeEstimated?.addingTimeInterval(120)
+        XCTAssertEqual(event.id, updated.id)
+        XCTAssertNotEqual(event, updated)
+    }
+
+    func testRefreshKeepsScrolledPages() throws {
+        let events = try departures() // planned 08:37, 08:38, 08:43
+        var refreshed = events[1]
+        refreshed.departureTimeEstimated = refreshed.departureTimeEstimated?.addingTimeInterval(60)
+
+        // first page now only covers up to 08:38; 08:37 has departed
+        let merged = mergeFirstPage([refreshed], into: events)
+
+        XCTAssertEqual(merged.map(\.id), [events[1].id, events[2].id])
+        XCTAssertEqual(merged[0].departureTimeEstimated, refreshed.departureTimeEstimated) // fresh data wins
+    }
+
     // MARK: EFA stop sequence
 
     func testStopSequence() throws {

@@ -7,24 +7,28 @@
 
 import Foundation
 
+// DateFormatter is expensive to create and these run for every list row; formatting is thread-safe.
+private func formatter(_ format: String) -> DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = format
+    return formatter
+}
+
+private let timeFormatter = formatter("HH:mm")
+private let urlTimeFormatter = formatter("HHmm")
+private let urlDateFormatter = formatter("yyyyMMdd")
+
 func getTimeStamp(date: Date) -> String {
-    let dFormatter = DateFormatter()
-    dFormatter.dateFormat = "HH:mm"
-    return dFormatter.string(for: date) ?? "n/a"
+    timeFormatter.string(from: date)
 }
 
 func getTimeStampURL(date: Date = Date()) -> String {
-    let dFormatter = DateFormatter()
-    dFormatter.dateFormat = "HHmm"
-    return dFormatter.string(for: date) ?? ""
+    urlTimeFormatter.string(from: date)
 }
 
 func getDateStampURL(date: Date = Date()) -> String {
-    let dFormatter = DateFormatter()
-    dFormatter.dateFormat = "yyyyMMdd"
-    return dFormatter.string(for: date) ?? ""
+    urlDateFormatter.string(from: date)
 }
-
 
 /// Whole-minute difference with seconds ignored, as departure boards show delays.
 func minutesBetween(_ from: Date, _ to: Date) -> Int {
