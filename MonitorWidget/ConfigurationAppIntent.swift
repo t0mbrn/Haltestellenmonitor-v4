@@ -2,17 +2,14 @@
 //  ConfigurationAppIntent.swift
 //  MonitorWidgetExtension
 //
-//  Replaces the SiriKit ConfigurationIntent (IntentDefinition/) and the MonitorIntents extension.
-//  Parameter names, entity ids and enum cases match the old intent so existing widgets keep their configuration.
+//  Widget configuration (replaced the SiriKit intent and the MonitorIntents extension in v4).
 //
 
 import AppIntents
 import WidgetKit
 import HaltestellenmonitorKit
 
-struct ConfigurationAppIntent: WidgetConfigurationIntent, CustomIntentMigratedAppIntent {
-    static let intentClassName = "ConfigurationIntent"
-
+struct ConfigurationAppIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Haltestellenmonitor"
     static var description = IntentDescription("Widget zur Anzeige der Abfahrten an einer Haltestelle.")
 
@@ -52,7 +49,7 @@ enum FavoriteFilterAppEnum: String, AppEnum {
 }
 
 struct StopEntity: AppEntity {
-    let id: String // stopID, as in the old StopType
+    let id: String // stopID
     let name: String
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "Haltestelle"
@@ -83,7 +80,7 @@ struct StopEntityQuery: EntityStringQuery {
 }
 
 struct LineEntity: AppEntity {
-    let id: String // line number, as in the old LineFilter
+    let id: String // line number
 
     static let all = [
         "1", "2", "3", "4", "6", "7", "8", "9", "10", "11", "12", "13", "20",

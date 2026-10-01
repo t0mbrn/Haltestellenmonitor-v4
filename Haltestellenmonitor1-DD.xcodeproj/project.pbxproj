@@ -86,13 +86,6 @@
 			);
 			target = D00059C12A52F3800007468A /* Haltestellenmonitor1-DDTests */;
 		};
-		1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Haltestellenmonitor1-DD" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"/Localized: MonitorWidget.intentdefinition",
-			);
-			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
-		};
 		5CE4568A4E067AF560B6A9DC /* Exceptions for "Data" folder in "Haltestellenmonitor1-DD" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -107,13 +100,6 @@
 			);
 			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
 		};
-		9E7AE4826EF3FE253BF5FA4A /* Exceptions for "Haltestellenmonitor1-DD" folder in "Haltestellenmonitor1-DD" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = D03A267E29EEB6C9005B0600 /* Haltestellenmonitor1-DD */;
-		};
 		B5266C667B5662282EDE82AC /* Exceptions for "MonitorWidget" folder in "MonitorWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -121,25 +107,9 @@
 			);
 			target = D0BD668229EFE0AA004E574C /* MonitorWidgetExtension */;
 		};
-		E0686D75AD65175B304B1A0C /* Exceptions for "IntentDefinition" folder in "MonitorWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"/Localized: MonitorWidget.intentdefinition",
-			);
-			target = D0BD668229EFE0AA004E574C /* MonitorWidgetExtension */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4A9F3BF6571E5B4643259CBB /* IntentDefinition */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1E089274DA94744E2973ABFF /* Exceptions for "IntentDefinition" folder in "Haltestellenmonitor1-DD" target */,
-				E0686D75AD65175B304B1A0C /* Exceptions for "IntentDefinition" folder in "MonitorWidgetExtension" target */,
-			);
-			path = IntentDefinition;
-			sourceTree = "<group>";
-		};
 		4ADECE64A60651900C03DA97 /* WatchMonitor Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "WatchMonitor Watch App";
@@ -147,9 +117,6 @@
 		};
 		776AF5C7D292DC235E11DF31 /* Haltestellenmonitor1-DD */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				9E7AE4826EF3FE253BF5FA4A /* Exceptions for "Haltestellenmonitor1-DD" folder in "Haltestellenmonitor1-DD" target */,
-			);
 			path = "Haltestellenmonitor1-DD";
 			sourceTree = "<group>";
 		};
@@ -223,7 +190,6 @@
 			children = (
 				D011C45829F58875008DF9E1 /* MonitorWidgetExtension.entitlements */,
 				A878F1E9CDCCDF3AD4A9D8C9 /* Data */,
-				4A9F3BF6571E5B4643259CBB /* IntentDefinition */,
 				776AF5C7D292DC235E11DF31 /* Haltestellenmonitor1-DD */,
 				96BC4A6E86FD731B223945F5 /* MonitorWidget */,
 				4ADECE64A60651900C03DA97 /* WatchMonitor Watch App */,
@@ -657,7 +623,6 @@
 				DEVELOPMENT_TEAM = WGL37RNHJ6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Haltestellenmonitor1-DD/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Haltestellenmonitor Dresden";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Der Standort wird verwendet um den Abstand zur nächsten Haltestelle zu berechnen.";
@@ -694,7 +659,6 @@
 				DEVELOPMENT_TEAM = WGL37RNHJ6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Haltestellenmonitor1-DD/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Haltestellenmonitor Dresden";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Der Standort wird verwendet um den Abstand zur nächsten Haltestelle zu berechnen.";

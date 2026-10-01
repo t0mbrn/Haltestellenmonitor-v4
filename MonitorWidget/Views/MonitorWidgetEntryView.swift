@@ -50,23 +50,3 @@ struct MonitorWidgetEntryView: View {
         .dynamicTypeSize(.medium ... .large)
     }
 }
-
-// struct MonitorWidget_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MonitorWidgetEntryView(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM))
-//            .previewContext(WidgetPreviewContext(family: .systemSmall))
-//            .previewDisplayName("Small")
-//        
-//        MonitorWidgetEntryView(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM))
-//            .previewContext(WidgetPreviewContext(family: .systemMedium))
-//            .previewDisplayName("Medium")
-//        
-//        MonitorWidgetEntryView(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM))
-//            .previewContext(WidgetPreviewContext(family: .systemLarge))
-//            .previewDisplayName("Large")
-//        
-//        MonitorWidgetEntryView(entry: MonitorEntry(date: Date(), configuration: ConfigurationIntent(), departureMonitor: departureM))
-//            .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
-//            .previewDisplayName("Extra Large")
-//    }
-// }
