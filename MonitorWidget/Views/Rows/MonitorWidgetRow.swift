@@ -27,7 +27,7 @@ struct MonitorWidgetRow: View {
                 .font(.subheadline)
                 .lineLimit(1)
             Spacer()
-            if entry.configuration.displayFormat == DisplayFormat.time {
+            if entry.configuration.displayFormat == .time {
                 Text(widgetFamily == .systemSmall ? "\(stopEvent.getEstimatedTime())" : "\(stopEvent.getEstimatedTime()) Uhr")
                     .font(.subheadline)
                     .multilineTextAlignment(.trailing)

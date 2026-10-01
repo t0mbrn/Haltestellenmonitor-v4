@@ -9,49 +9,44 @@
 
 import WidgetKit
 import SwiftUI
-import Intents
 import CoreLocation
 import MapKit
 
-class Provider: IntentTimelineProvider {
+class Provider: AppIntentTimelineProvider {
 
     typealias Entry = MonitorEntry
 
     let widgetLocationManager = WidgetLocationManager()
 
     func placeholder(in context: Context) -> MonitorEntry {
-        MonitorEntry(date: Date(), configuration: ConfigurationIntent(), stop: nil, stopEvents: nil)
+        MonitorEntry(date: Date(), configuration: ConfigurationAppIntent(), stop: nil, stopEvents: nil)
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (MonitorEntry) -> Void) {
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> MonitorEntry {
         // TODO: stopEvents
-        let entry = MonitorEntry(date: Date(), configuration: configuration, stop: stops[0], stopEvents: [])
-        completion(entry)
+        MonitorEntry(date: Date(), configuration: configuration, stop: stops[0], stopEvents: [])
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        Task {
-            let stop = await resolveStop(for: configuration)
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<MonitorEntry> {
+        let stop = await resolveStop(for: configuration)
 
-            guard let stopEvents = try? await fetchDepartures(stopId: stop.gid) else {
-                print("Widget: departure request failed")
-                let entry = MonitorEntry(date: .now, configuration: configuration, stop: stop, stopEvents: nil)
-                completion(Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(60))))
-                return
-            }
-
-            let entries = (0 ..< 72).map { index in
-                MonitorEntry(date: .now.addingTimeInterval(30 * Double(index)), configuration: configuration, stop: stop, stopEvents: stopEvents)
-            }
-            completion(Timeline(entries: entries, policy: .atEnd))
+        guard let stopEvents = try? await fetchDepartures(stopId: stop.gid) else {
+            print("Widget: departure request failed")
+            let entry = MonitorEntry(date: .now, configuration: configuration, stop: stop, stopEvents: nil)
+            return Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(60)))
         }
+
+        let entries = (0 ..< 72).map { index in
+            MonitorEntry(date: .now.addingTimeInterval(30 * Double(index)), configuration: configuration, stop: stop, stopEvents: stopEvents)
+        }
+        return Timeline(entries: entries, policy: .atEnd)
     }
 
-    private func resolveStop(for configuration: ConfigurationIntent) async -> Stop {
+    private func resolveStop(for configuration: ConfigurationAppIntent) async -> Stop {
         let fallback = Stop.getByGID(gid: "de:14612:28")!
 
-        guard configuration.favoriteFilter == FavoriteFilter.true else {
-            return Stop.getBystopID(stopID: configuration.stopType?.identifier ?? "0") ?? fallback
+        guard configuration.favoriteFilter == .true else {
+            return Stop.getBystopID(stopID: configuration.stopType?.id ?? "0") ?? fallback
         }
 
         var favoriteStops: [Int] = []
@@ -78,7 +73,7 @@ struct MonitorWidget: Widget {
     let kind: String = "MonitorWidget"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             MonitorWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Haltestellenmonitor")

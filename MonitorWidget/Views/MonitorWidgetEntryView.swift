@@ -8,7 +8,6 @@
 
 import WidgetKit
 import SwiftUI
-import Intents
 import CoreLocation
 
 struct MonitorWidgetEntryView: View {
